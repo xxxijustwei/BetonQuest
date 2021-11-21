@@ -1,0 +1,14 @@
+npcs:
+  '0': innkeeper
+cancel:
+  wood:
+    name: '&2旅店之木'
+    conditions: wood_started,!wood_paid
+    objectives: wood
+    tags: wood_started,wood_done,wood_paid
+    journal: wood_started,wood_done,wood_paid
+journal_main_page:
+  greeting:
+    priority: 1
+    text: 'Ukonczyles zadanie dla Karczmarza!'
+    conditions: 'wood_paid'

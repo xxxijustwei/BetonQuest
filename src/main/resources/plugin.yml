@@ -1,0 +1,28 @@
+name: BetonQuest
+main: pl.betoncraft.betonquest.BetonQuest
+api-version: 1.13
+description: Advanced role-playing quests and NPC conversations
+authors: [Co0sh, justwei]
+depend:
+  - MegumiLib
+softdepend:
+  - Citizens
+  - MythicMobs
+  - Vault
+  - GemsEconomy
+  - WorldEdit
+  - WorldGuard
+  - PlaceholderAPI
+  - HolographicDisplays
+  - ProtocolLib
+version: ${project.version}
+commands:
+  betonquest:
+    description: General quest command
+    usage: /<command>
+    permission: betonquest.admin
+    aliases: [bq, quest]
+permissions:
+  betonquest.admin:
+    default: op
+  

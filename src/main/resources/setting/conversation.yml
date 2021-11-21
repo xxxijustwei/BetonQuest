@@ -1,0 +1,102 @@
+quester: 'Innkeeper'
+first: 'start,start_wood_started,start_wood_completed'
+stop: 'false'
+NPC_options:
+  'start':
+    text: 'Welcome to my inn, %player%! What can I do for you?'
+    conditions: '!wood_started'
+    pointer: 'questions,quests,bye'
+  'back':
+    text: 'Yes?'
+    pointer: 'questions,quests,wood_questions,wood_done,more_quests,bye'
+  'start_wood_started':
+    text: 'Welcome back! How is it going with that wood?'
+    conditions: 'wood_started,!wood_paid'
+    pointer: 'questions,wood_questions,wood_done,bye'
+  'start_wood_completed':
+    text: 'Ah, my favorite customer! How can I help?'
+    conditions: 'wood_paid'
+    pointer: 'questions,more_quests,bye'
+  'quest_wood':
+    text: 'I was making new mugs for beer but I ran out of wood. Can you bring me some from the nearby forest?'
+    pointer: 'wood_yes,wood_no'
+  'questions':
+    text: 'I''ll answer as best I can.'
+    pointer: 'wood_where,wood_how,wood_with_what,no_questions'
+  'wood_reward':
+    text: 'Excellent! Here are 5 emeralds for you!'
+    events: 'tag_wood_paid,entry_wood_paid'
+    pointer: 'questions,more_quests,bye'
+  'wood_doesnt_have':
+    text: 'Where? I can''t see anything in your inventory...'
+    pointer: 'now,wood_go,questions'
+  'no_quests':
+    text: 'Unfortunately I don''t have anything else for you. Come back later.'
+    pointer: 'questions,bye'
+  'wood_yes':
+    text: 'Great. Go to the forest and bring me some wood.'
+    pointer: 'wood_go,wood_questions,back'
+  'wood_no':
+    text: 'That''s a shame.'
+  'wood_where':
+    text: 'Go out of the village through the south gate and turn left. You''ll find a forest.'
+  'wood_how':
+    text: 'Stand in front of the tree and start punching it until a block of wood pops out. It''s that simple.'
+    pointer: 'wood_where,wood_with_what,no_questions'
+  'wood_with_what':
+    text: 'You can search the lumberjack''s hut. I''m sure you''ll find some axes in there.'
+    pointer: 'wood_where,wood_how,no_questions'
+  'no_questions':
+    text: 'I hope I helped.'
+    pointer: 'wood_go,back'
+  'wood_go':
+    text: 'Good luck!'
+player_options:
+  'questions':
+    text: 'I have questions.'
+  'back':
+    text: 'Back to the topic...'
+    pointer: 'back'
+  'quests':
+    text: 'Do you have some quests? I need money.'
+    conditions: '!wood_started'
+    pointer: 'quest_wood'
+  'wood_questions':
+    text: 'I have some questions about this woodcutting.'
+    conditions: 'wood_started,!wood_paid'
+    pointer: 'questions'
+  'wood_done':
+    text: 'I collected all the wood.'
+    conditions: 'wood_done,!wood_paid'
+    pointer: 'wood_reward,wood_doesnt_have'
+  'more_quests':
+    text: 'Do you have some other quests?'
+    conditions: 'wood_paid'
+    pointer: 'no_quests'
+  'wood_yes':
+    text: 'Sounds okay.'
+    events: 'wood_start,tag_wood_started,entry_wood_started'
+    pointer: 'wood_yes'
+  'wood_no':
+    text: 'On the other hand, I don''t want that money.'
+    pointer: 'wood_no'
+  'wood_where':
+    text: 'Where is the forest?'
+    pointer: 'wood_where'
+  'wood_how':
+    text: 'How can I chop wood?'
+    pointer: 'wood_how'
+  'wood_with_what':
+    text: 'With what should I chop wood?'
+    pointer: 'wood_with_what'
+  'no_questions':
+    text: 'I don''t have questions.'
+    pointer: 'no_questions'
+  'wood_go':
+    text: 'Ok, so I''m going to cut some trees.'
+    pointer: 'wood_go'
+  'now':
+    text: 'What about now?'
+    pointer: 'wood_reward,wood_doesnt_have'
+  'bye':
+    text: 'Bye.'

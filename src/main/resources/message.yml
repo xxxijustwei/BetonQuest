@@ -1,0 +1,102 @@
+common:
+  conversation_prefix: "&2[&9{1}&2] "
+  conversation_start: "&e====&b与{1}对话中&e===="
+  conversation_end: "&e====&b与{1}的对话已经结束&e===="
+  no_permission: "&c你没有相应的权限."
+  new_journal_entry: "&e*&b你的笔记已经更新!&e*"
+  journal_title: "任务笔记"
+  journal_lore: "可以查看你的任务状态"
+  backpack_title: "背包"
+  previous: "&2前一个"
+  next: "&2下一个"
+  inventory_full: "&e*&b你的背包已满!&e*"
+  changelog: "&f[BetonQuest]: &e*&b新版本的更新内容已经生成在插件文件夹下!将它删除就不会再看到这个信息了&e*"
+  pullback: "&c你还在对话中!"
+  items_given: "&2你获得了 {2} 个 {1}"
+  items_taken: "&2你失去了 {2} 个 {1}"
+  blocks_to_break: "&2还需要再破坏 {1} 个方块"
+  blocks_to_place: "&2还需要再放置 {1} 个方块"
+  mobs_to_kill: "&2还需要杀死 {1} 个怪物"
+  players_to_kill: "&2还需要击杀 {1} 名玩家"
+  fish_to_catch: "&2还需要钓 {1} 条鱼"
+  sheep_to_shear: "&2还需要剪 {1} 只羊的羊毛"
+  potions_to_brew: "&2还需要制作 {1} 枚药水"
+  animals_to_breed: "&2还需要繁衍 {1} 只动物"
+  busy: "&c你还在战斗中"
+  quest_canceled: "&2任务 {1} 已取消!"
+  cancel: "&c取消任务"
+  cancel_page: "正在取消任务"
+  compass: "&c指南针正在指向: "
+  compass_page: "请选择你的目标"
+  command_blocked: "&c你不能在任务中使用该命令."
+  language_changed: "&2您的语言已更换!"
+  language_missing: "&c请注明语言的名字"
+  language_not_exist: "&c这个语言不存在，可用的语言有："
+  days: "天"
+  hours: "小时"
+  minutes: "分钟"
+  seconds: "秒"
+  and: "和"
+  password: "密码: "
+internal:
+  unknown_argument: '&cWrong argument.'
+  reloaded: '&cConfiguration reloaded!'
+  arguments: '&cNot enough arguments.'
+  specify_condition: '&cSpecify correct condition name.'
+  specify_event: '&cSpecify correct event name.'
+  specify_player: '&cSpecify player''s name.'
+  specify_item: '&cSpecify correct item''s name.'
+  specify_tag: '&cSpecify tag.'
+  specify_objective: '&cSpecify correct objective name.'
+  specify_category_and_amount: '&cSpecify category name and amount of points to modify.'
+  specify_pointer: '&cSpecify correct pointer name.'
+  specify_date: '&cSpecify pointer date (formatted like in date_format)'
+  specify_action: '&cSpecify action (read, set or add)'
+  specify_path: '&cSpecify path (separated by dots)'
+  specify_package: '&cSpecify package name'
+  package_created: '&2Package created'
+  package_exists: '&cPackage already exists'
+  config_set_error: '&cCould not set specified path.'
+  no_item: '&cYou''re not holding any item!'
+  item_created: '&2Item saved to configuration as {1}.'
+  player_objectives: '&aPlayer''s objectives:'
+  player_tags: '&aPlayer''s tags:'
+  player_condition: '&aCondition {1}: {2}'
+  player_event: '&aEvent fired: {1}'
+  player_points: '&aPlayer''s points:'
+  player_journal: '&ePointers in journal:'
+  points_added: '&2Points added!'
+  points_removed: '&2Points subtracted!'
+  tag_added: '&2Tag added!'
+  tag_removed: '&2Tag removed!'
+  global_points: '&aGlobal points:'
+  global_tags: '&aGlobal tags:'
+  global_points_purged: '&4Global points purged!'
+  global_tags_purged: '&4Global tags purged!'
+  objective_added: '&2Objective started!'
+  objective_removed: '&2Objective deleted!'
+  objective_completed: '&2Objective completed!'
+  pointer_added: '&2Pointer added!'
+  pointer_removed: '&2Pointer removed!'
+  purged: '&4{1}''s data purged!'
+  command_reload: reloads the plugin
+  command_objectives: displays active objectives
+  command_tags: displays tags
+  command_points: displays points
+  command_journal: displays journal pointers
+  command_condition: checks if the player meet the condition
+  command_event: fires an event for the player
+  command_item: creates an item from the one you're holding
+  command_give: gives you the specified item
+  command_rename: renames all specified objects entries in the database
+  command_delete: deletes all specified objects from the database
+  command_config: reads, sets or appends strings to config files
+  command_version: displays version information
+  command_vector: calculates a vector from first variable and saves it to the second
+  command_purge: deletes all data about the player
+  command_backup: creates configuration and database backup. Use only from console on empty server!
+  command_globaltags: displays global tags
+  command_globalpoints: displays global points
+  offline: '&4All players must be offline in order to make a backup!'
+  default_language_changed: '&2Default language changed!'
+  error: '&cThere has been an error: {1}'
