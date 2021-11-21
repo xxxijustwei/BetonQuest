@@ -1,7 +1,5 @@
 package pl.betoncraft.betonquest.listener;
 
-import net.sakuragame.eternal.dragoncore.api.event.YamlSendToPlayerEvent;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -38,11 +36,5 @@ public class PlayerListener implements Listener {
             objective.removePlayer(uuid);
         }
         BetonQuest.getInstance().removePlayerData(uuid);
-    }
-
-    @EventHandler
-    public void onSend(YamlSendToPlayerEvent e) {
-        Player player = e.getPlayer();
-        plugin.getConversationUI().send2Player(player);
     }
 }
