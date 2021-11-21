@@ -12,10 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class StorageManager {
 
@@ -41,46 +38,48 @@ public class StorageManager {
         List<Point> points = new ArrayList<>();
         HashMap<String, String> objectives = new HashMap<>();
 
-        try {
-            Connection conn = dataManager.getConnection();
-
-            DatabaseQuery objectiveQuery = dataManager.createQuery(QuestTables.QUEST_OBJECTIVES.getTableName(), "uid", uid);
-            DatabaseQuery tagQuery = dataManager.createQuery(QuestTables.QUEST_TAGS.getTableName(), "uid", uid);
-            DatabaseQuery journalQuery = dataManager.createQuery(QuestTables.QUEST_JOURNAL.getTableName(), "uid", uid);
-            DatabaseQuery pointQuery = dataManager.createQuery(QuestTables.QUEST_POINTS.getTableName(), "uid", uid);
-
-            ResultSet oResult = objectiveQuery.getResultSet();
-            while (oResult.next()) {
-                String objective = oResult.getString("objective");
-                String instructions = oResult.getString("instructions");
+        try (DatabaseQuery query = dataManager.createQuery(QuestTables.QUEST_OBJECTIVES.getTableName(), "uid", uid)) {
+            ResultSet result = query.getResultSet();
+            while (result.next()) {
+                String objective = result.getString("objective");
+                String instructions = result.getString("instructions");
                 objectives.put(objective, instructions);
             }
-            oResult.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-            ResultSet tResult = tagQuery.getResultSet();
-            while (tResult.next()) {
-                String tag = tResult.getString("tag");
+        try (DatabaseQuery query = dataManager.createQuery(QuestTables.QUEST_TAGS.getTableName(), "uid", uid)) {
+            ResultSet result = query.getResultSet();
+            while (result.next()) {
+                String tag = result.getString("tag");
                 tags.add(tag);
             }
-            tResult.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-            ResultSet jResult = journalQuery.getResultSet();
-            while (jResult.next()) {
-                String pointer = jResult.getString("pointer");
-                long time = jResult.getTimestamp("date").getTime();
+        try (DatabaseQuery query = dataManager.createQuery(QuestTables.QUEST_JOURNAL.getTableName(), "uid", uid)) {
+            ResultSet result = query.getResultSet();
+            while (result.next()) {
+                String pointer = result.getString("pointer");
+                long time = result.getTimestamp("date").getTime();
                 entries.add(new Pointer(pointer, time));
             }
-            jResult.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-            ResultSet pResult = pointQuery.getResultSet();
-            while (pResult.next()) {
-                String category = pResult.getString("category");
-                int count = pResult.getInt("count");
+        try (DatabaseQuery query = dataManager.createQuery(QuestTables.QUEST_POINTS.getTableName(), "uid", uid)) {
+            ResultSet result = query.getResultSet();
+            while (result.next()) {
+                String category = result.getString("category");
+                int count = result.getInt("count");
                 points.add(new Point(category, count));
             }
-            pResult.close();
-
-            conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -93,21 +92,13 @@ public class StorageManager {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
 
-        try {
-            Connection conn = dataManager.getConnection();
-            Statement state = conn.createStatement();
-            state.addBatch("DELETE FROM " + QuestTables.QUEST_OBJECTIVES.getTableName() + " WHERE uid = '" + uid + "'");
-            state.addBatch("DELETE FROM " + QuestTables.QUEST_JOURNAL.getTableName() + " WHERE uid = '" + uid + "'");
-            state.addBatch("DELETE FROM " + QuestTables.QUEST_POINTS.getTableName() + " WHERE uid = '" + uid + "'");
-            state.addBatch("DELETE FROM " + QuestTables.QUEST_TAGS.getTableName() + " WHERE uid = '" + uid + "'");
-            state.executeBatch();
-            state.clearBatch();
-            state.close();
-            conn.close();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Object[]> params = new ArrayList<>();
+        params.add(new Object[] {QuestTables.QUEST_OBJECTIVES.getTableName(), uid});
+        params.add(new Object[] {QuestTables.QUEST_JOURNAL.getTableName(), uid});
+        params.add(new Object[] {QuestTables.QUEST_POINTS.getTableName(), uid});
+        params.add(new Object[] {QuestTables.QUEST_TAGS.getTableName(), uid});
+
+        dataManager.executeSQLBatch("DELETE FROM ? WHERE uid = ?", params);
     }
 
     public void insertJournal(UUID uuid, String pointer, String date) {
@@ -212,7 +203,7 @@ public class StorageManager {
     public List<String> getGlobalTags() {
         List<String> tags = new ArrayList<>();
 
-        try (DatabaseQuery query = dataManager.createQuery("SELECT * FROM " + QuestTables.QUEST_GLOBAL_TAGS.getTableName())) {
+        try (DatabaseQuery query = dataManager.createQueryInTable(QuestTables.QUEST_GLOBAL_TAGS.getTableName())) {
             ResultSet result = query.getResultSet();
             while (result.next()) {
                 tags.add(result.getString("tag"));
@@ -228,7 +219,7 @@ public class StorageManager {
     public List<Point> getGlobalPoints() {
         List<Point> points = new ArrayList<>();
 
-        try (DatabaseQuery query = dataManager.createQuery("SELECT * FROM " + QuestTables.QUEST_GLOBAL_POINTS.getTableName())) {
+        try (DatabaseQuery query = dataManager.createQueryInTable(QuestTables.QUEST_GLOBAL_POINTS.getTableName())) {
             ResultSet result = query.getResultSet();
             while (result.next()) {
                 String category = result.getString("category");

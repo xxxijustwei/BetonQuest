@@ -1,5 +1,7 @@
 package pl.betoncraft.betonquest;
 
+import net.sakuragame.eternal.justmessage.JustMessage;
+import net.sakuragame.eternal.justmessage.screen.ScreenManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.bukkit.Bukkit;
@@ -37,6 +39,8 @@ public class BetonQuest extends JavaPlugin {
     private HashMap<UUID, PlayerData> playerData;
     private GlobalData globalData;
 
+    private ScreenManager screenManager;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -69,6 +73,8 @@ public class BetonQuest extends JavaPlugin {
 
         // block betonquestanswer logging (it's just a spam)
         initLogging();
+
+        screenManager = JustMessage.getInstance().getScreenManager();
 
         registerListener(new QuestListener());
         registerListener(new PlayerListener());
@@ -138,6 +144,10 @@ public class BetonQuest extends JavaPlugin {
 
     public static QuestManager getQuestManager() {
         return instance.questManager;
+    }
+
+    public static ScreenManager getScreenManager() {
+        return instance.screenManager;
     }
 
     private void registerListener(Listener listener) {

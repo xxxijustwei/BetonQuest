@@ -2,8 +2,10 @@ package pl.betoncraft.betonquest.conversation.sub;
 
 import com.taylorswiftcn.megumi.uifactory.event.comp.UIFCompSubmitEvent;
 import com.taylorswiftcn.megumi.uifactory.event.screen.UIFScreenCloseEvent;
-import com.taylorswiftcn.megumi.uifactory.generate.ui.UIFactory;
-import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI;
+import net.sakuragame.eternal.dragoncore.network.PacketSender;
+import net.sakuragame.eternal.justmessage.api.MessageAPI;
+import net.sakuragame.eternal.justmessage.screen.ui.conversation.ConversationScreen;
+import net.sakuragame.eternal.justmessage.screen.ui.conversation.OptionComp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,13 +17,14 @@ import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.conversation.Conversation;
 import pl.betoncraft.betonquest.conversation.ConversationIO;
 import pl.betoncraft.betonquest.utils.PlayerConverter;
+import pl.betoncraft.betonquest.utils.Scheduler;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class ScreenConvIO implements ConversationIO, Listener {
 
-    private BetonQuest plugin;
+    private final BetonQuest plugin;
 
     protected int i;
     protected String npcName;
@@ -33,8 +36,8 @@ public class ScreenConvIO implements ConversationIO, Listener {
 
     protected Conversation conv;
     protected Player player;
-    protected ScreenUI ui;
     protected Location location;
+    protected boolean isOpen;
 
     public ScreenConvIO(Conversation conv, UUID uuid) {
         this.plugin = BetonQuest.getInstance();
@@ -47,6 +50,7 @@ public class ScreenConvIO implements ConversationIO, Listener {
         this.conv = conv;
         this.player = PlayerConverter.getPlayer(uuid);
         this.location = player.getLocation();
+        this.isOpen = false;
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -80,13 +84,19 @@ public class ScreenConvIO implements ConversationIO, Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                /*OptionComp optionComp = new OptionComp();
+                OptionComp optionComp = new OptionComp();
                 for (int i = 1; i <= options.size(); i++) {
                     String s = options.get(i);
                     optionComp.addOption(i, s);
                 }
 
-                plugin.getConversationUI().open(player, npcName, response, optionComp);*/
+                BetonQuest.getScreenManager().getConvScreen().open(player, npcName, response, optionComp, !isOpen);
+                if (!isOpen) {
+                    isOpen = true;
+                }
+                else {
+                    switching = true;
+                }
             }
         }.runTask(plugin);
     }
@@ -111,7 +121,7 @@ public class ScreenConvIO implements ConversationIO, Listener {
         Player target = e.getPlayer();
         String screenID = e.getScreenID();
 
-        /*if (!screenID.equals(ConversationUI.screenID)) return;*/
+        if (!screenID.equals(ConversationScreen.screenID)) return;
 
         int index = Integer.parseInt(e.getParams().getParam(0));
 
@@ -129,7 +139,12 @@ public class ScreenConvIO implements ConversationIO, Listener {
 
         if (!e.getPlayer().equals(player)) return;
 
-        if (switching) return;
+        if (!e.getScreenID().equals(ConversationScreen.screenID)) return;
+
+        if (switching) {
+            switching = false;
+            return;
+        }
 
         if (allowClose) {
             HandlerList.unregisterAll(this);
@@ -140,12 +155,12 @@ public class ScreenConvIO implements ConversationIO, Listener {
                 @Override
                 public void run() {
                     player.teleport(location);
-                    UIFactory.open(player, ui);
                 }
             }.runTask(plugin);
         }
         else {
             conv.endConversation();
+            MessageAPI.setHudVisible(player, true);
             HandlerList.unregisterAll(this);
         }
     }

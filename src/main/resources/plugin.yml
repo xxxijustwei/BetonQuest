@@ -5,6 +5,8 @@ description: Advanced role-playing quests and NPC conversations
 authors: [Co0sh, justwei]
 depend:
   - MegumiLib
+  - Zaphkiel
+  - JustMessage
 softdepend:
   - Citizens
   - MythicMobs

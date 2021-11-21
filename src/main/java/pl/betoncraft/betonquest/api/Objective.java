@@ -224,7 +224,7 @@ public abstract class Objective {
     public final synchronized void addPlayer(UUID uuid, String instruction) {
         ObjectiveData data = null;
         try {
-            data = template.getConstructor(String.class, String.class, String.class).newInstance(instruction, uuid, this.instruction.getID().getFullID());
+            data = template.getConstructor(String.class, UUID.class, String.class).newInstance(instruction, uuid, this.instruction.getID().getFullID());
         } catch (Exception e) {
             if (e.getCause() instanceof InstructionParseException) {
                 LogUtils.getLogger().log(Level.WARNING, "Error while loading " + this.instruction.getID().getFullID() + " objective data for player "
