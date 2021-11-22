@@ -113,6 +113,7 @@ public class ScreenConvIO implements ConversationIO, Listener {
         allowClose = true;
         if (response == null && options.isEmpty()) {
             player.closeInventory();
+            MessageAPI.setHudVisible(player, true);
         }
     }
 

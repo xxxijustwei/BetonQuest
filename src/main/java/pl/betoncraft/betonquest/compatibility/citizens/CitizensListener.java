@@ -47,9 +47,6 @@ public class CitizensListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onNPCClick(final NPCRightClickEvent event) {
-        if (!event.getClicker().hasPermission("betonquest.conversation")) {
-            return;
-        }
         if (NPCMoveEvent.blocksTalking(event.getNPC())) {
             return;
         }

@@ -4,7 +4,7 @@ dragon_started:
     - '&7前往讨伐灭尽龙'
     - ''
     - '⁌ &7进度: %objective.dragon_started.mmobkill%/1'
-dragon_done:
+dragon_killed:
   title: '&e&l[主线] 击杀灭尽龙'
   desc:
     - '&f你已经完成讨伐任务'

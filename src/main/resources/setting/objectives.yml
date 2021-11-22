@@ -1,1 +1,1 @@
-dragon_started: mmobkill dragon amount:1 events:dragon_tag_done,dragon_journal_done
+dragon_started: mmobkill dragon amount:1 events:dragon_tag_killed,dragon_journal_killed,dragon_complete_msg

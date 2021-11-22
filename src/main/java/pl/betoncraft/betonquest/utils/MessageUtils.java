@@ -143,6 +143,7 @@ public class MessageUtils {
         PlayerData playerData = BetonQuest.getInstance().getPlayerData(player.getUniqueId());
         if (playerData == null)
             return null;
+        messageName = messageName.startsWith("internal.") ? messageName : "common." + messageName;
         String message = FileManager.getMessage(messageName, variables);
         if (message == null || message.length() == 0)
             return null;

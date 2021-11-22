@@ -47,9 +47,9 @@ public class TitleNotifyIO extends NotifyIO {
     public TitleNotifyIO(Map<String, String> data) {
         super(data);
 
-        fadeIn = Integer.valueOf(data.getOrDefault("fadein", "10"));
-        stay = Integer.valueOf(data.getOrDefault("stay", "70"));
-        fadeOut = Integer.valueOf(data.getOrDefault("fadeout", "20"));
+        fadeIn = Integer.parseInt(data.getOrDefault("fadein", "10"));
+        stay = Integer.parseInt(data.getOrDefault("stay", "50"));
+        fadeOut = Integer.parseInt(data.getOrDefault("fadeout", "20"));
         subTitle = getData().getOrDefault("subtitle", "").replace("_", " ");
     }
 

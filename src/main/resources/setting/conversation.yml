@@ -1,7 +1,11 @@
 quester: '士官长'
-first: 'start,quest_dragon_started,quest_dragon_done'
+first: 'start,normal,quest_dragon_done,quest_dragon_started'
 stop: 'false'
 NPC_options:
+  normal:
+    text: '&f你好，%player%！很高兴见到你'
+    conditions: 'dragon_quest_done'
+    pointer: 'normal,bye'
   start:
     text: '你好, %player%! 有什么我可以为你效劳的?'
     conditions: '!dragon_quest_started'
@@ -13,11 +17,6 @@ NPC_options:
        β &f阶段突破石*100
        ζ &f境界突破石*100
     pointer: 'dragon_quest_accept,bye'
-  quest_dragon_started:
-    text: |-
-      &f你回来了，讨伐过程怎么样?
-    conditions: 'dragon_quest_started,!dragon_quest_done'
-    pointer: 'bye'
   quest_dragon_done:
     text: |-
       &f恭喜你，讨伐成功！
@@ -25,8 +24,16 @@ NPC_options:
 
        β &f阶段突破石*100
        ζ &f境界突破石*100
+    conditions: 'dragon_quest_killed'
     pointer: 'dragon_quest_done'
+  quest_dragon_started:
+    text: |-
+      &f你回来了，讨伐过程怎么样?
+    conditions: 'dragon_quest_started,!dragon_quest_done'
+    pointer: 'dragon_quest_unfinished,bye'
 player_options:
+  normal:
+    text: '&f我也是'
   dragon_quest:
     text: '&e&l[主线] &f讨伐灭尽龙'
     conditions: '!dragon_quest_started'
@@ -36,6 +43,8 @@ player_options:
     events: 'dragon_obj_start,dragon_tag_started,dragon_journal_started,dragon_accept_msg'
   dragon_quest_done:
     text: '&f完成任务'
-    events: 'dragon_complete_msg'
+    events: 'dragon_tag_done,dragon_reward_msg'
+  dragon_quest_unfinished:
+    text: '&f我还没有完成'
   bye:
     text: '&f离开(ESC)'
