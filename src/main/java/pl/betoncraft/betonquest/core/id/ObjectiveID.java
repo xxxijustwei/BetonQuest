@@ -17,7 +17,6 @@
  */
 package pl.betoncraft.betonquest.core.id;
 
-import pl.betoncraft.betonquest.config.ConfigPackage;
 import pl.betoncraft.betonquest.config.FileManager;
 import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 

@@ -30,6 +30,7 @@ player_options:
   dragon_quest:
     text: '&e&l[主线] &f讨伐灭尽龙'
     conditions: '!dragon_quest_started'
+    pointer: 'quest_dragon'
   dragon_quest_accept:
     text: '&f接受任务'
     events: 'dragon_obj_start,dragon_tag_started,dragon_journal_started,dragon_accept_msg'

@@ -125,7 +125,7 @@ public class ScreenConvIO implements ConversationIO, Listener {
 
         int index = Integer.parseInt(e.getParams().getParam(0));
 
-        int i = options.size() - index + 1;
+        int i = index;
         String message = options.get(i);
         if (message == null) return;
 

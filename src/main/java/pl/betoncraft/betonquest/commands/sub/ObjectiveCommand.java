@@ -3,6 +3,7 @@ package pl.betoncraft.betonquest.commands.sub;
 import com.taylorswiftcn.justwei.commands.sub.SubTabCompleter;
 import pl.betoncraft.betonquest.commands.CommandPerms;
 import pl.betoncraft.betonquest.commands.sub.objective.*;
+import pl.betoncraft.betonquest.commands.sub.objective.HelpCommand;
 
 public class ObjectiveCommand extends SubTabCompleter {
 
