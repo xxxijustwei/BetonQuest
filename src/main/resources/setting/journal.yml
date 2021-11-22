@@ -1,3 +1,13 @@
-wood_started: 'The Innkeeper asked me to bring him 16 blocks of wood from the nearby forest.'
-wood_done: 'I collected 16 blocks of wood. I should return to the Innkeeper.'
-wood_paid: 'I brought wood to the Innkeeper, and he gave me 5 emeralds in return.'
+dragon_started:
+  title: '&e&l[主线] 击杀灭尽龙'
+  desc:
+    - '&7前往讨伐灭尽龙'
+    - ''
+    - '⁌ &7进度: %objective.dragon_started.mmobkill%/1'
+dragon_done:
+  title: '&e&l[主线] 击杀灭尽龙'
+  desc:
+    - '&f你已经完成讨伐任务'
+    - '&f该回到士官长哪了'
+    - ''
+    - '⁍ &7进度: 1/1'

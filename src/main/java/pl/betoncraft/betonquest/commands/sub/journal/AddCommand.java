@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.core.PlayerData;
-import pl.betoncraft.betonquest.core.Pointer;
 import pl.betoncraft.betonquest.utils.MessageUtils;
 
 import java.util.Date;
@@ -36,8 +35,7 @@ public class AddCommand extends SubCommand {
             return;
         }
 
-        Pointer pointer = new Pointer(entry, new Date().getTime());
-        data.getJournal().addPointer(pointer);
+        data.getJournal().addPointer(entry);
         data.getJournal().update();
         MessageUtils.sendMessage(sender, "pointer_added");
     }

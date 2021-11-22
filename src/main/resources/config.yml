@@ -19,14 +19,14 @@ sounds:
 cmd_blacklist:
 - spawn
 hook:
-  citizens: 'true'
-  mythicmobs: 'true'
-  vault: 'true'
-  worldguard: 'true'
-  placeholderapi: 'true'
-  holographicdisplays: 'true'
-  worldedit: 'true'
-  protocollib: 'true'
+  citizens: true
+  mythicmobs: true
+  vault: true
+  worldguard: true
+  placeholderapi: true
+  holographicdisplays: true
+  worldedit: true
+  protocollib: true
 journal:
   chars_per_line: '19'
   lines_per_page: '13'

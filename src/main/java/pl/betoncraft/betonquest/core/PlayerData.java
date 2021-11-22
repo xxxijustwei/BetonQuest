@@ -1,14 +1,10 @@
 package pl.betoncraft.betonquest.core;
 
 import lombok.Getter;
-import org.bukkit.inventory.ItemStack;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
 import pl.betoncraft.betonquest.api.Objective;
 import pl.betoncraft.betonquest.config.QuestCanceler;
-import pl.betoncraft.betonquest.core.Journal;
-import pl.betoncraft.betonquest.core.Point;
-import pl.betoncraft.betonquest.core.Pointer;
 import pl.betoncraft.betonquest.core.id.ObjectiveID;
 import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 import pl.betoncraft.betonquest.utils.LogUtils;
@@ -24,18 +20,18 @@ public class PlayerData {
 
     private final UUID uuid;
     private final List<String> tags;
-    private final List<Pointer> entries;
+    private final List<String> journals;
     private final List<Point> points;
     private final HashMap<String, String> objectives;
     private Journal journal;
 
-    public PlayerData(UUID uuid, List<String> tags, List<Pointer> entries, List<Point> points, HashMap<String, String> objectives) {
+    public PlayerData(UUID uuid, List<String> tags, List<String> journals, List<Point> points, HashMap<String, String> objectives) {
         this.uuid = uuid;
         this.tags = tags;
-        this.entries = entries;
+        this.journals = journals;
         this.points = points;
         this.objectives = objectives;
-        this.journal = new Journal(uuid, entries);
+        this.journal = new Journal(uuid, journals);
     }
 
     public void cancelQuest(String name) {
@@ -140,7 +136,7 @@ public class PlayerData {
         objectives.clear();
         tags.clear();
         points.clear();
-        entries.clear();
+        journals.clear();
         getJournal().clear();
         getJournal().update();
         // clear the database

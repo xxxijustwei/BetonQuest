@@ -1,6 +1,7 @@
 package pl.betoncraft.betonquest.commands.sub;
 
 import com.taylorswiftcn.justwei.commands.sub.SubCommand;
+import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,6 +9,9 @@ import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.commands.CommandPerms;
 import pl.betoncraft.betonquest.core.PlayerData;
 import pl.betoncraft.betonquest.utils.MessageUtils;
+import pl.betoncraft.betonquest.utils.Scheduler;
+
+import java.util.UUID;
 
 public class PurgeCommand extends SubCommand {
     @Override
@@ -23,7 +27,9 @@ public class PurgeCommand extends SubCommand {
 
         Player player = Bukkit.getPlayerExact(s);
         if (player == null) {
-            sender.sendMessage("§c Player's name is missing or he's offline");
+            UUID uuid = ClientManagerAPI.getUserUUID(s);
+            Scheduler.runAsync(() -> BetonQuest.getStorageManager().clearPlayerDate(uuid));
+            MessageUtils.sendMessage(sender, "purged", new String[]{args[0]});
             return;
         }
 

@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.config.FileManager;
 import pl.betoncraft.betonquest.core.PlayerData;
-import pl.betoncraft.betonquest.core.Pointer;
 import pl.betoncraft.betonquest.utils.MessageUtils;
 
 import java.text.SimpleDateFormat;
@@ -41,10 +40,9 @@ public class ListCommand extends SubCommand {
         }
 
         MessageUtils.sendMessage(sender, "player_journal");
-        for (Pointer pointer : data.getJournal().getPointers()) {
-            String date = dateFormat.format(new Date(pointer.getTimestamp()));
+        for (String pointer : data.getJournal().getPointers()) {
 
-            sender.sendMessage("§b- " + pointer.getPointer() + " §c(§2" + date + "§c)");
+            sender.sendMessage("§b- " + pointer);
         }
     }
 

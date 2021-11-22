@@ -25,6 +25,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,7 +42,7 @@ public class ConfigPackage {
     @Getter private HashMap<String, String> events;
     @Getter private HashMap<String, String> conditions;
     @Getter private HashMap<String, String> objectives;
-    @Getter private HashMap<String, String> journal;
+    @Getter private HashMap<String, JournalProfile> journal;
     @Getter private HashMap<Integer, String> npc;
     private ConfigAccessor custom;
     private HashMap<String, ConfigAccessor> conversations = new HashMap<>();
@@ -60,7 +61,7 @@ public class ConfigPackage {
         this.events = loadSetting(AccessorType.EVENTS);
         this.conditions = loadSetting(AccessorType.CONDITIONS);
         this.objectives = loadSetting(AccessorType.OBJECTIVES);
-        this.journal = loadSetting(AccessorType.JOURNAL);
+        this.journal = loadJournals();
         this.npc = loadNpc();
         this.conversations = loadConversations();
 
@@ -100,6 +101,27 @@ public class ConfigPackage {
         });
 
         return setting;
+    }
+
+    private HashMap<String, JournalProfile> loadJournals() {
+        HashMap<String, JournalProfile> profiles = new HashMap<>();
+
+        File dir = new File(folder, AccessorType.JOURNAL.getFolder());
+        if (!(dir.exists() && dir.isDirectory())) return profiles;
+
+        File[] files = dir.listFiles();
+        if (files == null || files.length == 0) return profiles;
+
+        Arrays.stream(files).filter(file -> file.getName().endsWith(".yml")).forEach(file -> {
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+            for (String key : yaml.getKeys(false)) {
+                String title = MegumiUtil.onReplace(yaml.getString(key + ".title"));
+                List<String> desc = MegumiUtil.onReplace(yaml.getStringList(key + ".desc"));
+                profiles.put(key, new JournalProfile(title, desc));
+            }
+        });
+
+        return profiles;
     }
 
     private HashMap<String, ConfigAccessor> loadConversations() {

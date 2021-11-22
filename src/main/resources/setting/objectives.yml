@@ -1,1 +1,1 @@
-wood: block LOG -16 events:tag_wood_done,entry_wood_done
+dragon_started: mmobkill dragon amount:1 events:dragon_tag_done,dragon_journal_done

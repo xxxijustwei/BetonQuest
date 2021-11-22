@@ -6,12 +6,8 @@ import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.core.PlayerData;
 import pl.betoncraft.betonquest.core.Point;
-import pl.betoncraft.betonquest.core.Pointer;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 public class StorageManager {
@@ -34,7 +30,7 @@ public class StorageManager {
         int uid = ClientManagerAPI.getUserID(uuid);
 
         List<String> tags = new ArrayList<>();
-        List<Pointer> entries = new ArrayList<>();
+        List<String> journals = new ArrayList<>();
         List<Point> points = new ArrayList<>();
         HashMap<String, String> objectives = new HashMap<>();
 
@@ -65,8 +61,7 @@ public class StorageManager {
             ResultSet result = query.getResultSet();
             while (result.next()) {
                 String pointer = result.getString("pointer");
-                long time = result.getTimestamp("date").getTime();
-                entries.add(new Pointer(pointer, time));
+                journals.add(pointer);
             }
         }
         catch (SQLException e) {
@@ -85,30 +80,27 @@ public class StorageManager {
             e.printStackTrace();
         }
 
-        return new PlayerData(uuid, tags, entries, points, objectives);
+        return new PlayerData(uuid, tags, journals, points, objectives);
     }
 
     public void clearPlayerDate(UUID uuid) {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
 
-        List<Object[]> params = new ArrayList<>();
-        params.add(new Object[] {QuestTables.QUEST_OBJECTIVES.getTableName(), uid});
-        params.add(new Object[] {QuestTables.QUEST_JOURNAL.getTableName(), uid});
-        params.add(new Object[] {QuestTables.QUEST_POINTS.getTableName(), uid});
-        params.add(new Object[] {QuestTables.QUEST_TAGS.getTableName(), uid});
-
-        dataManager.executeSQLBatch("DELETE FROM ? WHERE uid = ?", params);
+        dataManager.executeDelete(QuestTables.QUEST_OBJECTIVES.getTableName(), "uid", uid);
+        dataManager.executeDelete(QuestTables.QUEST_JOURNAL.getTableName(), "uid", uid);
+        dataManager.executeDelete(QuestTables.QUEST_POINTS.getTableName(), "uid", uid);
+        dataManager.executeDelete(QuestTables.QUEST_TAGS.getTableName(), "uid", uid);
     }
 
-    public void insertJournal(UUID uuid, String pointer, String date) {
+    public void insertJournal(UUID uuid, String pointer) {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
 
         dataManager.executeInsert(
                 QuestTables.QUEST_JOURNAL.getTableName(),
-                new String[] {"uid", "pointer", "date"},
-                new Object[] {uid, pointer, date}
+                new String[] {"uid", "pointer"},
+                new Object[] {uid, pointer}
         );
     }
 

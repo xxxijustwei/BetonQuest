@@ -18,6 +18,7 @@
 package pl.betoncraft.betonquest.core;
 
 import com.google.common.collect.Lists;
+import com.taylorswiftcn.justwei.util.MegumiUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,11 +31,13 @@ import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
 import pl.betoncraft.betonquest.config.ConfigPackage;
 import pl.betoncraft.betonquest.config.FileManager;
+import pl.betoncraft.betonquest.config.JournalProfile;
 import pl.betoncraft.betonquest.core.id.ConditionID;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 import pl.betoncraft.betonquest.utils.*;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
@@ -47,8 +50,8 @@ import java.util.logging.Level;
 public class Journal {
 
     private final UUID uuid;
-    private final List<Pointer> pointers;
-    private final List<String> texts = new ArrayList<>();
+    private final List<String> pointers;
+    private final List<String> texts;
 
     /**
      * Creates new Journal instance from List of Pointers.
@@ -56,10 +59,11 @@ public class Journal {
      * @param uuid ID of the player whose journal is created
      * @param list list of pointers to journal entries
      */
-    public Journal(UUID uuid, List<Pointer> list) {
+    public Journal(UUID uuid, List<String> list) {
         // generate texts from list of pointers
         this.uuid = uuid;
-        pointers = list;
+        this.pointers = list;
+        this.texts = new LinkedList<>();
     }
 
     /**
@@ -67,7 +71,7 @@ public class Journal {
      *
      * @return this Journal's list of pointers to journal entries
      */
-    public List<Pointer> getPointers() {
+    public List<String> getPointers() {
         return pointers;
     }
 
@@ -76,13 +80,10 @@ public class Journal {
      *
      * @param pointer the pointer to be added
      */
-    public void addPointer(Pointer pointer) {
+    public void addPointer(String pointer) {
         pointers.add(pointer);
 
-        Scheduler.runAsync(() -> {
-            String date = Long.toString(pointer.getTimestamp());
-            BetonQuest.getStorageManager().insertJournal(uuid, pointer.getPointer(), date);
-        });
+        Scheduler.runAsync(() -> BetonQuest.getStorageManager().insertJournal(uuid, pointer));
     }
 
     /**
@@ -91,13 +92,10 @@ public class Journal {
      * @param pointerName the name of the pointer to remove
      */
     public void removePointer(String pointerName) {
-        for (Iterator<Pointer> iterator = pointers.iterator(); iterator.hasNext(); ) {
-            Pointer pointer = iterator.next();
-            if (pointer.getPointer().equalsIgnoreCase(pointerName)) {
-                /*String date = Long.toString(pointer.getTimestamp());*/
-                Scheduler.runAsync(() -> BetonQuest.getStorageManager().deleteJournal(uuid, pointer.getPointer()));
-                iterator.remove();
-                break;
+        for (String s : new ArrayList<>(pointers)) {
+            if (s.equals(pointerName)) {
+                pointers.remove(s);
+                Scheduler.runAsync(() -> BetonQuest.getStorageManager().deleteJournal(uuid, pointerName));
             }
         }
     }
@@ -122,59 +120,40 @@ public class Journal {
      *
      */
     public void generateTexts() {
-        // remove previous texts
         texts.clear();
-        for (Pointer pointer : pointers) {
-            // if date should not be hidden, generate the date prefix
-            String datePrefix = "";
-            if (FileManager.getConfig("journal.hide_date").equalsIgnoreCase("false")) {
-                String date = new SimpleDateFormat(FileManager.getConfig("date_format"))
-                        .format(pointer.getTimestamp());
-                String[] dateParts = date.split(" ");
-                String day = "§" + FileManager.getConfig("journal_colors.date.day") + dateParts[0];
-                String hour = "";
-                if (dateParts.length > 1) {
-                    hour = "§" + FileManager.getConfig("journal_colors.date.hour") + dateParts[1];
-                }
-                datePrefix = day + " " + hour + "\n";
-            }
-            // get package and name of the pointer
-            String[] parts = pointer.getPointer().split("\\.");
-            ConfigPackage pack = FileManager.getPackages();
-            if (pack == null) {
-                continue;
-            }
-            String pointerName = parts[1];
-            // resolve the text in player's language
-            String text;
-            if (!pack.getJournal().containsKey(pointerName)) {
-                LogUtils.getLogger().log(Level.WARNING, "No defined journal entry " + pointerName);
-                text = "error";
-            } else {
-                text = Utils.format(pack.getJournal().get(pointerName));
-            }
-            // handle case when the text isn't defined
-            if (text == null) {
-                LogUtils.getLogger().log(Level.WARNING, "No text defined for journal entry " + pointerName);
-                text = "error";
+
+        ConfigPackage pack = FileManager.getPackages();
+
+        for (String pointer : pointers) {
+            List<String> contents = pack.getJournal().containsKey(pointer) ? generatePointer(pack.getJournal().get(pointer)) : new ArrayList<>();
+            if (contents.isEmpty()) {
+                LogUtils.getLogger().log(Level.WARNING, "No text defined for journal entry " + pointer);
             }
 
-            // resolve variables
-            for (String variable : QuestManager.resolveVariables(text)) {
-                try {
-                    QuestManager.createVariable(variable);
-                } catch (InstructionParseException e) {
-                    LogUtils.getLogger().log(Level.WARNING, "Error while creating variable '" + variable + "' on journal page '" + pointerName + "' in "
-                            + PlayerConverter.getName(uuid) + "'s journal: " + e.getMessage());
-                    LogUtils.logThrowable(e);
-                }
-                text = text.replace(variable,
-                        BetonQuest.getQuestManager().getVariableValue(variable, uuid));
-            }
-
-            // add the entry to the list
-            texts.add(datePrefix + "§" + FileManager.getConfig("journal_colors.text") + text);
+            texts.addAll(contents);
         }
+    }
+
+    private LinkedList<String> generatePointer(JournalProfile profile) {
+        LinkedList<String> texts = new LinkedList<>();
+
+        texts.add(profile.getTitle());
+        texts.addAll(generatePointerContent(profile));
+
+        return texts;
+    }
+
+    public LinkedList<String> generatePointerContent(JournalProfile profile) {
+        LinkedList<String> contents = new LinkedList<>();
+
+        for (String s : profile.getContents()) {
+            for (String variable : QuestManager.resolveVariables(s)) {
+                s = s.replace(variable, BetonQuest.getQuestManager().getVariableValue(variable, uuid));
+            }
+            contents.add(s);
+        }
+
+        return contents;
     }
 
     public void update() {

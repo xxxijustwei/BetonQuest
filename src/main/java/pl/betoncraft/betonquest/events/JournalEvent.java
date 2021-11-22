@@ -20,7 +20,6 @@ package pl.betoncraft.betonquest.events;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.Journal;
-import pl.betoncraft.betonquest.core.Pointer;
 import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.utils.MessageUtils;
@@ -54,7 +53,7 @@ public class JournalEvent extends QuestEvent {
     public void run(UUID uuid) {
         Journal journal = BetonQuest.getInstance().getPlayerData(uuid).getJournal();
         if (add) {
-            journal.addPointer(new Pointer(name, new Date().getTime()));
+            journal.addPointer(name);
             MessageUtils.sendNotify(uuid, "new_journal_entry", null, "new_journal_entry,info");
         } else if (name != null) {
             journal.removePointer(name);

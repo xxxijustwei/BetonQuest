@@ -1,7 +1,9 @@
-wood_start: 'objective start wood'
-tag_wood_started: 'tag add wood_started'
-tag_wood_done: 'tag add wood_done'
-tag_wood_paid: 'tag add wood_paid'
-entry_wood_started: 'journal add wood_started'
-entry_wood_done: 'journal add wood_done'
-entry_wood_paid: 'journal add wood_paid'
+dragon_obj_start: 'objective start dragon_started'
+dragon_tag_started: 'tag add dragon_started'
+dragon_journal_started: 'journal add dragon_started'
+
+dragon_tag_done: 'tag add dragon_done'
+dragon_journal_done: 'journal add dragon_done'
+
+dragon_accept_msg: 'notify &a&l接受任务\n&7讨伐灭尽龙 io:title'
+dragon_complete_msg: 'notify &a&l任务完成\n&7讨伐灭尽龙 io:title'

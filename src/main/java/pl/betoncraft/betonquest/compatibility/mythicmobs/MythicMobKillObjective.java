@@ -30,6 +30,7 @@ import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.utils.MessageUtils;
 import pl.betoncraft.betonquest.utils.PlayerConverter;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -48,8 +49,7 @@ public class MythicMobKillObjective extends Objective implements Listener {
     public MythicMobKillObjective(Instruction instruction) throws InstructionParseException {
         super(instruction);
         template = MMData.class;
-        for (String name : instruction.getArray())
-            names.add(name);
+        names.addAll(Arrays.asList(instruction.getArray()));
         amount = instruction.getInt(instruction.getOptional("amount"), 1);
         notify = instruction.hasArgument("notify");
     }

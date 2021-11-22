@@ -46,13 +46,19 @@ import java.util.logging.Level;
  */
 public class Compatibility implements Listener {
 
+
+    private final BetonQuest plugin;
+    private final Map<String, Integrator> integrators;
+    private final List<String> hooked;
+
     private static Compatibility instance;
-    private Map<String, Integrator> integrators = new HashMap<>();
-    private BetonQuest plugin = BetonQuest.getInstance();
-    private List<String> hooked = new ArrayList<>();
 
     public Compatibility() {
         instance = this;
+
+        plugin = BetonQuest.getInstance();
+        integrators = new HashMap<>();
+        hooked = new ArrayList<>();
 
         integrators.put("MythicMobs", new MythicMobsIntegrator());
         integrators.put("Citizens", new CitizensIntegrator());
@@ -70,8 +76,7 @@ public class Compatibility implements Listener {
         Bukkit.getPluginManager().registerEvents(this, BetonQuest.getInstance());
 
         // hook into ProtocolLib
-        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")
-                && plugin.getConfig().getString("hook.protocollib").equalsIgnoreCase("true")) {
+        if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib") && plugin.getConfig().getBoolean("hook.protocollib")) {
             hooked.add("ProtocolLib");
         }
 
@@ -123,7 +128,7 @@ public class Compatibility implements Listener {
         }
 
         // hook into the plugin if it's enabled in the config
-        if ("true".equalsIgnoreCase(plugin.getConfig().getString("hook." + name.toLowerCase()))) {
+        if (BetonQuest.getFileManager().getConfig().getBoolean("hook." + name.toLowerCase())) {
 
             // log important information in case of an error
             try {
@@ -133,8 +138,7 @@ public class Compatibility implements Listener {
                 LogUtils.getLogger().log(Level.WARNING, "Could not hook into " + name + ": " +  e.getMessage());
                 LogUtils.logThrowable(e);
             } catch (Exception e) {
-                LogUtils.getLogger().log(Level.WARNING, String.format("There was an error while hooking into %s %s"
-                                + " (BetonQuest %s, Spigot %s).",
+                LogUtils.getLogger().log(Level.WARNING, String.format("There was an error while hooking into %s %s (BetonQuest %s, Spigot %s).",
                         name, hook.getDescription().getVersion(),
                         plugin.getDescription().getVersion(), Bukkit.getVersion()));
                 LogUtils.logThrowableReport(e);
@@ -143,11 +147,6 @@ public class Compatibility implements Listener {
                         + "' to false in config.yml file.");
             }
         }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onPluginEnable(PluginEnableEvent event) {
-        hook(event.getPlugin());
     }
 
 }

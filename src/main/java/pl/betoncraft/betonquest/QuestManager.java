@@ -7,6 +7,7 @@ import pl.betoncraft.betonquest.api.Condition;
 import pl.betoncraft.betonquest.api.Objective;
 import pl.betoncraft.betonquest.api.Variable;
 import pl.betoncraft.betonquest.api.event.QuestEvent;
+import pl.betoncraft.betonquest.compatibility.Compatibility;
 import pl.betoncraft.betonquest.conditions.*;
 import pl.betoncraft.betonquest.config.ConfigPackage;
 import pl.betoncraft.betonquest.config.FileManager;
@@ -79,6 +80,7 @@ public class QuestManager {
 
     public void init() {
         this.registerInternal();
+        new Compatibility();
         this.loadSetting();
         this.loadCanceler();
     }
@@ -106,7 +108,7 @@ public class QuestManager {
         try {
             Variable var = createVariable(name);
             if (var == null)
-                return "could not resolve variable";
+                return name;
             return var.getValue(uuid);
         } catch (InstructionParseException e) {
             LogUtils.getLogger().log(Level.WARNING, "Could not create variable: " + e.getMessage());
@@ -546,7 +548,7 @@ public class QuestManager {
         ArrayList<String> variables = new ArrayList<>();
         Matcher matcher = Pattern.compile("%[^ %\\s]+%").matcher(text);
         while (matcher.find()) {
-            final String variable = matcher.group();
+            String variable = matcher.group();
             if (!variables.contains(variable)) variables.add(variable);
         }
         return variables;

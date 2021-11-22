@@ -51,21 +51,16 @@ public class BetonQuest extends JavaPlugin {
 
         fileManager = new FileManager(this);
         storageManager = new StorageManager(this);
-        questManager = new QuestManager(this);
-
         fileManager.init();
-        questManager.init();
         storageManager.init();
+
+        questManager = new QuestManager(this);
+        questManager.init();
 
         ConversationColors.init();
 
-        // initialize static events
         new StaticEvents();
-        //initialize global objectives
         new GlobalObjectives();
-
-        // initialize compatibility with other plugins
-        new Compatibility();
 
         // schedule quest data loading on the first tick, so all other
         // plugins can register their types

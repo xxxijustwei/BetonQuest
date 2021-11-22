@@ -33,7 +33,6 @@ public enum QuestTables {
                     "`id` int AUTO_INCREMENT",
                     "`uid` int NOT NULL",
                     "`pointer` varchar(64) NOT NULL",
-                    "`date` timestamp NOT NULL",
                     "UNIQUE KEY `account` (`id`,`uid`)"
             })),
     QUEST_GLOBAL_TAGS(new DatabaseTable(FileManager.getTablePrefix() + "global_tags",

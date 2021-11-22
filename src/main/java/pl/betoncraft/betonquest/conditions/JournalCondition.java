@@ -19,10 +19,8 @@ package pl.betoncraft.betonquest.conditions;
 
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.core.Instruction;
-import pl.betoncraft.betonquest.core.Pointer;
 import pl.betoncraft.betonquest.api.Condition;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
-import pl.betoncraft.betonquest.utils.Utils;
 
 import java.util.UUID;
 
@@ -42,8 +40,8 @@ public class JournalCondition extends Condition {
 
     @Override
     public boolean check(UUID uuid) {
-        for (Pointer pointer : BetonQuest.getInstance().getPlayerData(uuid).getJournal().getPointers()) {
-            if (pointer.getPointer().equalsIgnoreCase(targetPointer)) {
+        for (String pointer : BetonQuest.getInstance().getPlayerData(uuid).getJournal().getPointers()) {
+            if (pointer.equalsIgnoreCase(targetPointer)) {
                 return true;
             }
         }
