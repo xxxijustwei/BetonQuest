@@ -3,7 +3,7 @@ dragon_started:
   desc:
     - '&7前往讨伐灭尽龙'
     - ''
-    - '⁌ &7进度: %objective.dragon_started.mmobkill%/1'
+    - '⁌ &7进度: %objective.dragon_started.amount%/1'
 dragon_killed:
   title: '&e&l[主线] 击杀灭尽龙'
   desc:

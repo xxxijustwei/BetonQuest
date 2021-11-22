@@ -25,7 +25,7 @@ NPC_options:
        β &f阶段突破石*100
        ζ &f境界突破石*100
     conditions: 'dragon_quest_killed'
-    pointer: 'dragon_quest_done'
+    pointer: 'dragon_quest_done,bye'
   quest_dragon_started:
     text: |-
       &f你回来了，讨伐过程怎么样?

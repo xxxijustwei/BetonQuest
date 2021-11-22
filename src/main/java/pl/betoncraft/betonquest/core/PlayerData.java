@@ -11,6 +11,7 @@ import pl.betoncraft.betonquest.utils.LogUtils;
 import pl.betoncraft.betonquest.utils.Scheduler;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -25,7 +26,7 @@ public class PlayerData {
     private final HashMap<String, String> objectives;
     private Journal journal;
 
-    public PlayerData(UUID uuid, List<String> tags, List<String> journals, List<Point> points, HashMap<String, String> objectives) {
+    public PlayerData(UUID uuid, List<String> tags, LinkedList<String> journals, List<Point> points, HashMap<String, String> objectives) {
         this.uuid = uuid;
         this.tags = tags;
         this.journals = journals;

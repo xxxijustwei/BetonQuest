@@ -30,7 +30,7 @@ public class StorageManager {
         int uid = ClientManagerAPI.getUserID(uuid);
 
         List<String> tags = new ArrayList<>();
-        List<String> journals = new ArrayList<>();
+        LinkedList<String> journals = new LinkedList<>();
         List<Point> points = new ArrayList<>();
         HashMap<String, String> objectives = new HashMap<>();
 

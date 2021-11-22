@@ -54,6 +54,7 @@ public class JournalEvent extends QuestEvent {
         Journal journal = BetonQuest.getInstance().getPlayerData(uuid).getJournal();
         if (add) {
             journal.addPointer(name);
+            journal.update();
             MessageUtils.sendNotify(uuid, "new_journal_entry", null, "new_journal_entry,info");
         } else if (name != null) {
             journal.removePointer(name);

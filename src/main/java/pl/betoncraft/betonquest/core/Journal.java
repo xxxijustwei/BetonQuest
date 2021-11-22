@@ -19,6 +19,7 @@ package pl.betoncraft.betonquest.core;
 
 import com.google.common.collect.Lists;
 import com.taylorswiftcn.justwei.util.MegumiUtil;
+import net.sakuragame.eternal.justmessage.api.MessageAPI;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -50,8 +51,7 @@ import java.util.logging.Level;
 public class Journal {
 
     private final UUID uuid;
-    private final List<String> pointers;
-    private final List<String> texts;
+    private final LinkedList<String> pointers;
 
     /**
      * Creates new Journal instance from List of Pointers.
@@ -59,11 +59,10 @@ public class Journal {
      * @param uuid ID of the player whose journal is created
      * @param list list of pointers to journal entries
      */
-    public Journal(UUID uuid, List<String> list) {
+    public Journal(UUID uuid, LinkedList<String> list) {
         // generate texts from list of pointers
         this.uuid = uuid;
         this.pointers = list;
-        this.texts = new LinkedList<>();
     }
 
     /**
@@ -101,26 +100,11 @@ public class Journal {
     }
 
     /**
-     * Retrieves the list of generated texts.
-     *
-     * @return list of Strings - texts for every journal entry
-     */
-    public List<String> getText() {
-        List<String> list;
-        if (FileManager.getConfig("journal.reversed_order").equalsIgnoreCase("true")) {
-            list = Lists.reverse(texts);
-        } else {
-            list = new ArrayList<>(texts);
-        }
-        return list;
-    }
-
-    /**
      * Generates texts for every pointer and places them inside a List
      *
      */
-    public void generateTexts() {
-        texts.clear();
+    public LinkedList<String> generatePointer() {
+        LinkedList<String> texts = new LinkedList<>();
 
         ConfigPackage pack = FileManager.getPackages();
 
@@ -132,6 +116,8 @@ public class Journal {
 
             texts.addAll(contents);
         }
+
+        return texts;
     }
 
     private LinkedList<String> generatePointer(JournalProfile profile) {
@@ -157,14 +143,21 @@ public class Journal {
     }
 
     public void update() {
+        if (pointers.size() == 0) {
+            MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), "&7&o暂无待完成任务", new ArrayList<>());
+            return;
+        }
 
+        String pointer = pointers.getLast();
+        JournalProfile profile = FileManager.getPackages().getJournal().get(pointer);
+
+        MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), profile.getTitle(), generatePointerContent(profile));
     }
 
     /**
      * Clears the Journal completely but doesn't touch the database.
      */
     public void clear() {
-        texts.clear();
         pointers.clear();
     }
 }
