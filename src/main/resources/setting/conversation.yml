@@ -1,3 +1,5 @@
+npc-id: 0
+model-scale: 4
 quester: '士官长'
 first: 'start,normal,quest_dragon_done,quest_dragon_started'
 stop: 'false'

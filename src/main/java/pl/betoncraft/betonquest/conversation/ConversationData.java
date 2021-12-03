@@ -17,16 +17,16 @@
  */
 package pl.betoncraft.betonquest.conversation;
 
+import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
+import pl.betoncraft.betonquest.config.ConfigPackage;
 import pl.betoncraft.betonquest.config.FileManager;
 import pl.betoncraft.betonquest.core.id.ConditionID;
 import pl.betoncraft.betonquest.core.id.EventID;
-import pl.betoncraft.betonquest.config.ConfigPackage;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 import pl.betoncraft.betonquest.utils.LogUtils;
@@ -45,18 +45,19 @@ public class ConversationData {
 
     private static ArrayList<String> externalPointers = new ArrayList<>();
 
-    private ConfigPackage pack;
     private String convName;
 
-    private String quester; // maps for multiple languages
-    private EventID[] finalEvents;
-    private String[] startingOptions;
-    private boolean blockMovement;
+    @Getter private final int npcID;
+    @Getter private final double modelScale;
+    private final String quester; // maps for multiple languages
+    private final EventID[] finalEvents;
+    private final String[] startingOptions;
+    private final boolean blockMovement;
     private String convIO;
     private String interceptor;
 
-    private HashMap<String, Option> NPCOptions;
-    private HashMap<String, Option> playerOptions;
+    private final HashMap<String, Option> NPCOptions;
+    private final HashMap<String, Option> playerOptions;
 
     /**
      * Loads conversation from package.
@@ -66,16 +67,14 @@ public class ConversationData {
      */
     public ConversationData(String name) throws InstructionParseException {
         this.convName = name;
-        this.pack = FileManager.getPackages();
+        ConfigPackage pack = FileManager.getPackages();
         LogUtils.getLogger().log(Level.FINE, String.format("Loading %s conversation", name));
-        // package and name must be correct, it loads only existing
-        // conversations
 
-        // get the main data
         YamlConfiguration conv = pack.getConversation(name).getYaml();
 
+        npcID = conv.getInt("npc-id");
+        modelScale = conv.getDouble("model-scale");
         quester = conv.getString("quester");
-
         String rawFinalEvents = conv.getString("final_events");
         String rawStartingOptions = conv.getString("first");
         String stop = conv.getString("stop");
@@ -381,7 +380,7 @@ public class ConversationData {
         public Option(String name, String type, String visibleType) throws InstructionParseException {
             this.name = name;
             this.type = type.equals("player_options") ? OptionType.PLAYER : OptionType.NPC;
-            ConfigurationSection conv = pack.getConversation(convName).getYaml().getConfigurationSection(type + "." + name);
+            ConfigurationSection conv = FileManager.getPackages().getConversation(convName).getYaml().getConfigurationSection(type + "." + name);
 
             // Text
             if (conv.contains("text")) {
