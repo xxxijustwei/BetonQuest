@@ -150,6 +150,7 @@ public class Journal {
 
         String pointer = pointers.getLast();
         JournalProfile profile = FileManager.getPackages().getJournal().get(pointer);
+        if (profile == null) return;
 
         MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), profile.getTitle(), generatePointerContent(profile));
     }

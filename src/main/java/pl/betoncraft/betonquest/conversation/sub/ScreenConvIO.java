@@ -126,11 +126,10 @@ public class ScreenConvIO implements ConversationIO, Listener {
 
         int index = Integer.parseInt(e.getParams().getParam(0));
 
-        int i = index;
-        String message = options.get(i);
+        String message = options.get(index);
         if (message == null) return;
 
-        conv.passPlayerAnswer(i);
+        conv.passPlayerAnswer(index);
     }
 
     @EventHandler
