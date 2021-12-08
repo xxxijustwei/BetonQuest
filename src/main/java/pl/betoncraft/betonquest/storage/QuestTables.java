@@ -15,7 +15,7 @@ public enum QuestTables {
     QUEST_TAGS(new DatabaseTable(FileManager.getTablePrefix() + "tags",
             new String[] {
                     "`uid` int NOT NULL",
-                    "`tag` TEXT NOT NULL",
+                    "`tag` VARCHAR(64) NOT NULL",
                     "UNIQUE KEY `account` (`uid`, `tag`)"
             })),
     QUEST_POINTS(new DatabaseTable(FileManager.getTablePrefix() + "points",
