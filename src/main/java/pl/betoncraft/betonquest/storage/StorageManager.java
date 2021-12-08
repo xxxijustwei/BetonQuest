@@ -104,6 +104,17 @@ public class StorageManager {
         );
     }
 
+    public void deleteJournal(UUID uuid, String pointer) {
+        int uid = ClientManagerAPI.getUserID(uuid);
+        if (uid == -1) return;
+
+        dataManager.executeDelete(
+                QuestTables.QUEST_JOURNAL.getTableName(),
+                new String[] {"uid", "pointer"},
+                new Object[] {uid, pointer}
+        );
+    }
+
     public void insertPoints(UUID uuid, String category, int count) {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
@@ -126,28 +137,6 @@ public class StorageManager {
         );
     }
 
-    public void updateObjective(UUID uuid, String objective, String Instruction) {
-        int uid = ClientManagerAPI.getUserID(uuid);
-        if (uid == -1) return;
-
-        dataManager.executeReplace(
-                QuestTables.QUEST_OBJECTIVES.getTableName(),
-                new String[] {"uid", "objective", "instructions"},
-                new Object[] {uid, objective, Instruction}
-        );
-    }
-
-    public void updateTag(UUID uuid, String tag) {
-        int uid = ClientManagerAPI.getUserID(uuid);
-        if (uid == -1) return;
-
-        dataManager.executeReplace(
-                QuestTables.QUEST_TAGS.getTableName(),
-                new String[] {"uid", "tag"},
-                new Object[] {uid, tag}
-        );
-    }
-
     public void deletePoints(UUID uuid, String category) {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
@@ -156,6 +145,17 @@ public class StorageManager {
                 QuestTables.QUEST_POINTS.getTableName(),
                 new String[] {"uid", "category"},
                 new Object[] {uid, category}
+        );
+    }
+
+    public void updateObjective(UUID uuid, String objective, String Instruction) {
+        int uid = ClientManagerAPI.getUserID(uuid);
+        if (uid == -1) return;
+
+        dataManager.executeReplace(
+                QuestTables.QUEST_OBJECTIVES.getTableName(),
+                new String[] {"uid", "objective", "instructions"},
+                new Object[] {uid, objective, Instruction}
         );
     }
 
@@ -170,6 +170,17 @@ public class StorageManager {
         );
     }
 
+    public void updateTag(UUID uuid, String tag) {
+        int uid = ClientManagerAPI.getUserID(uuid);
+        if (uid == -1) return;
+
+        dataManager.executeReplace(
+                QuestTables.QUEST_TAGS.getTableName(),
+                new String[] {"uid", "tag"},
+                new Object[] {uid, tag}
+        );
+    }
+
     public void deleteTag(UUID uuid, String tag) {
         int uid = ClientManagerAPI.getUserID(uuid);
         if (uid == -1) return;
@@ -178,17 +189,6 @@ public class StorageManager {
                 QuestTables.QUEST_TAGS.getTableName(),
                 new String[] {"uid", "tag"},
                 new Object[] {uid, tag}
-        );
-    }
-
-    public void deleteJournal(UUID uuid, String pointer) {
-        int uid = ClientManagerAPI.getUserID(uuid);
-        if (uid == -1) return;
-
-        dataManager.executeDelete(
-                QuestTables.QUEST_JOURNAL.getTableName(),
-                new String[] {"uid", "pointer"},
-                new Object[] {uid, pointer}
         );
     }
 

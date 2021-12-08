@@ -7,33 +7,29 @@ public enum QuestTables {
 
     QUEST_OBJECTIVES(new DatabaseTable(FileManager.getTablePrefix() + "objectives",
             new String[] {
-                    "`id` int AUTO_INCREMENT",
                     "`uid` int NOT NULL",
                     "`objective` varchar(64) NOT NULL",
                     "`instructions` text NOT NULL",
-                    "UNIQUE KEY `account` (`id`,`uid`)"
+                    "UNIQUE KEY `account` (`uid`, `objective`)"
             })),
     QUEST_TAGS(new DatabaseTable(FileManager.getTablePrefix() + "tags",
             new String[] {
-                    "`id` int AUTO_INCREMENT",
                     "`uid` int NOT NULL",
                     "`tag` TEXT NOT NULL",
-                    "UNIQUE KEY `account` (`id`,`uid`)"
+                    "UNIQUE KEY `account` (`uid`, `tag`)"
             })),
     QUEST_POINTS(new DatabaseTable(FileManager.getTablePrefix() + "points",
             new String[] {
-                    "`id` int AUTO_INCREMENT",
                     "`uid` int NOT NULL",
                     "`category` VARCHAR(64)",
                     "`count` int NOT NULL",
-                    "UNIQUE KEY `account` (`id`,`uid`)"
+                    "UNIQUE KEY `account` (`uid`, `category`)"
             })),
     QUEST_JOURNAL(new DatabaseTable(FileManager.getTablePrefix() + "journal",
             new String[] {
-                    "`id` int AUTO_INCREMENT",
                     "`uid` int NOT NULL",
                     "`pointer` varchar(64) NOT NULL",
-                    "UNIQUE KEY `account` (`id`,`uid`)"
+                    "UNIQUE KEY `account` (`uid`, `pointer`)"
             })),
     QUEST_GLOBAL_TAGS(new DatabaseTable(FileManager.getTablePrefix() + "global_tags",
             new String[] {
