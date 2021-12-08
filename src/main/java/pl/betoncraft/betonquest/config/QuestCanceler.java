@@ -218,9 +218,9 @@ public class QuestCanceler {
             for (String point : points) {
                 LogUtils.getLogger().log(Level.FINE, "  Removing points " + point);
                 if (!point.contains(".")) {
-                    playerData.removePointsCategory(point);
+                    playerData.removePoints(point);
                 } else {
-                    playerData.removePointsCategory(point);
+                    playerData.removePoints(point);
                 }
             }
         }

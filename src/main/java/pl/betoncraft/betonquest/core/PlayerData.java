@@ -110,7 +110,7 @@ public class PlayerData {
         Scheduler.runAsync(() -> BetonQuest.getStorageManager().deleteTag(uuid, tag));
     }
 
-    public void removePointsCategory(String category) {
+    public void removePoints(String category) {
         for (Point point : points) {
             if (point.getCategory().equalsIgnoreCase(category)) {
                 points.remove(point);

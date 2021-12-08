@@ -351,6 +351,7 @@ public class QuestManager {
         registerEvents("explosion", ExplosionEvent.class);
         registerEvents("lightning", LightningEvent.class);
         registerEvents("point", PointEvent.class);
+        registerEvents("delpoint", DeletePointEvent.class);
         registerEvents("globalpoint", GlobalPointEvent.class);
         registerEvents("give", GiveEvent.class);
         registerEvents("take", TakeEvent.class);

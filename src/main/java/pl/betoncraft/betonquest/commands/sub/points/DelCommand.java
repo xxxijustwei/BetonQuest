@@ -33,7 +33,7 @@ public class DelCommand extends SubCommand {
             return;
         }
 
-        data.removePointsCategory(category);
+        data.removePoints(category);
         MessageUtils.sendMessage(sender, "points_removed");
     }
 
