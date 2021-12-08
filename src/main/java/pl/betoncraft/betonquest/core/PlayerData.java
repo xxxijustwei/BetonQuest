@@ -95,8 +95,8 @@ public class PlayerData {
     public void modifyPoints(String category, int count) {
         for (Point point : points) {
             if (point.getCategory().equalsIgnoreCase(category)) {
-                Scheduler.runAsync(() -> BetonQuest.getStorageManager().updatePoints(uuid, category, point.getCount() + count));
                 point.addPoints(count);
+                Scheduler.runAsync(() -> BetonQuest.getStorageManager().updatePoints(uuid, category, point.getCount()));
                 return;
             }
         }
