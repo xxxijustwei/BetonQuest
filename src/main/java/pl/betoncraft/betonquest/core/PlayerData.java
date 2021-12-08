@@ -114,10 +114,10 @@ public class PlayerData {
         for (Point point : points) {
             if (point.getCategory().equalsIgnoreCase(category)) {
                 points.remove(point);
+                Scheduler.runAsync(() -> BetonQuest.getStorageManager().deletePoints(uuid, category));
                 return;
             }
         }
-        Scheduler.runAsync(() -> BetonQuest.getStorageManager().deletePoints(uuid, category));
     }
 
     public void removeRawObjective(ObjectiveID objectiveID) {
