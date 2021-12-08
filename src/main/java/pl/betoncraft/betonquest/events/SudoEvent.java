@@ -47,8 +47,12 @@ public class SudoEvent extends QuestEvent {
     @Override
     public void run(UUID uuid) {
         Player player = PlayerConverter.getPlayer(uuid);
-        for (String command : commands)
-            player.performCommand(command.replace("%player%", player.getName()));
+        for (String command : commands) {
+            player.performCommand(getReplacedString(player, command));
+        }
     }
 
+    private String getReplacedString(Player player, String command) {
+        return command.replace("%player%", player.getName());
+    }
 }
