@@ -58,9 +58,11 @@ public class JournalEvent extends QuestEvent {
             MessageUtils.sendNotify(uuid, "new_journal_entry", null, "new_journal_entry,info");
             return;
         }
+
         if (name != null) {
             journal.removePointer(name);
             journal.update();
+            return;
         }
 
         journal.update();
