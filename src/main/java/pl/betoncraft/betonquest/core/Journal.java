@@ -80,7 +80,6 @@ public class Journal {
      * @param pointer the pointer to be added
      */
     public void addPointer(String pointer) {
-        if (pointer == null) return;
         if (pointers.contains(pointer)) return;
 
         pointers.add(pointer);
