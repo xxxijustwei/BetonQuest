@@ -2,8 +2,6 @@ package pl.betoncraft.betonquest;
 
 import net.sakuragame.eternal.justmessage.JustMessage;
 import net.sakuragame.eternal.justmessage.screen.ScreenManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -19,7 +17,6 @@ import pl.betoncraft.betonquest.core.StaticEvents;
 import pl.betoncraft.betonquest.listener.*;
 import pl.betoncraft.betonquest.core.PlayerData;
 import pl.betoncraft.betonquest.storage.StorageManager;
-import pl.betoncraft.betonquest.utils.AnswerFilter;
 import pl.betoncraft.betonquest.utils.LogUtils;
 import pl.betoncraft.betonquest.utils.Scheduler;
 
@@ -66,9 +63,6 @@ public class BetonQuest extends JavaPlugin {
         // plugins can register their types
         loadDate();
 
-        // block betonquestanswer logging (it's just a spam)
-        initLogging();
-
         screenManager = JustMessage.getInstance().getScreenManager();
 
         registerListener(new QuestListener());
@@ -112,17 +106,6 @@ public class BetonQuest extends JavaPlugin {
                 data.getJournal().update();
             }
         });
-    }
-
-    private void initLogging() {
-        try {
-            Class.forName("org.apache.logging.log4j.core.Filter");
-            Logger coreLogger = (Logger) LogManager.getRootLogger();
-            coreLogger.addFilter(new AnswerFilter());
-        } catch (ClassNotFoundException | NoClassDefFoundError e) {
-            LogUtils.getLogger().log(Level.WARNING, "Could not disable /betonquestanswer logging");
-            LogUtils.logThrowable(e);
-        }
     }
 
     public static BetonQuest getInstance() {
