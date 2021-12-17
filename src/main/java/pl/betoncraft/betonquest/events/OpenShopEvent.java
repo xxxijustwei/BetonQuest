@@ -12,17 +12,14 @@ import java.util.UUID;
 public class OpenShopEvent extends QuestEvent {
 
     private final String shopID;
-    private final int category;
 
     public OpenShopEvent(Instruction instruction) throws InstructionParseException {
         super(instruction);
         shopID = instruction.next();
-        String part = instruction.next();
-        category = (part == null) ? 1 : Integer.parseInt(part);
     }
 
     @Override
     public void run(UUID uuid) throws QuestRuntimeException {
-        JustShopAPI.open(PlayerConverter.getPlayer(uuid), shopID, category);
+        JustShopAPI.open(PlayerConverter.getPlayer(uuid), shopID, 1);
     }
 }
