@@ -385,6 +385,7 @@ public class QuestManager {
         registerEvents("pickrandom", PickRandomEvent.class);
         registerEvents("xp", EXPEvent.class);
         registerEvents("notify", NotifyEvent.class);
+        registerEvents("openshop", OpenShopEvent.class);
     }
 
     private void registerObjectives() {

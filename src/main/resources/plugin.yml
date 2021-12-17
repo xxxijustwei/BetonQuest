@@ -17,6 +17,7 @@ softdepend:
   - PlaceholderAPI
   - HolographicDisplays
   - ProtocolLib
+  - JustShop
 version: ${project.version}
 commands:
   betonquest:
