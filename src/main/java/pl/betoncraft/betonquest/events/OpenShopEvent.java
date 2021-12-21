@@ -1,6 +1,6 @@
 package pl.betoncraft.betonquest.events;
 
-import net.sakuragame.eternal.justshop.api.JustShopAPI;
+import net.sakuragame.eternal.juststore.api.JustStoreAPI;
 import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
@@ -20,6 +20,6 @@ public class OpenShopEvent extends QuestEvent {
 
     @Override
     public void run(UUID uuid) throws QuestRuntimeException {
-        JustShopAPI.open(PlayerConverter.getPlayer(uuid), shopID, 1);
+        JustStoreAPI.openShop(PlayerConverter.getPlayer(uuid), shopID);
     }
 }
