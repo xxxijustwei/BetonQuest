@@ -386,6 +386,8 @@ public class QuestManager {
         registerEvents("xp", EXPEvent.class);
         registerEvents("notify", NotifyEvent.class);
         registerEvents("openshop", OpenShopEvent.class);
+        registerEvents("selfmodel", SelfModelEvent.class);
+        registerEvents("modelclothes", ModelClothesEvent.class);
     }
 
     private void registerObjectives() {
