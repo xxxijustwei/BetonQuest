@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.betoncraft.betonquest.clothes.ClothesListener;
+import pl.betoncraft.betonquest.clothes.ClothesManager;
 import pl.betoncraft.betonquest.commands.*;
 import pl.betoncraft.betonquest.compatibility.Compatibility;
 import pl.betoncraft.betonquest.config.FileManager;
@@ -32,6 +34,7 @@ public class BetonQuest extends JavaPlugin {
     private FileManager fileManager;
     private StorageManager storageManager;
     private QuestManager questManager;
+    private ClothesManager clothesManager;
 
     private HashMap<UUID, PlayerData> playerData;
     private GlobalData globalData;
@@ -50,6 +53,9 @@ public class BetonQuest extends JavaPlugin {
         storageManager = new StorageManager(this);
         fileManager.init();
         storageManager.init();
+
+        clothesManager = new ClothesManager();
+        clothesManager.init();
 
         questManager = new QuestManager(this);
         questManager.init();
@@ -72,6 +78,7 @@ public class BetonQuest extends JavaPlugin {
         registerListener(new CustomDropListener());
         registerListener(new CombatTagger());
         registerListener(new ConversationListener());
+        registerListener(new ClothesListener());
 
         getCommand("betonquest").setExecutor(new MainCommand());
 
@@ -128,6 +135,10 @@ public class BetonQuest extends JavaPlugin {
         return instance.screenManager;
     }
 
+    public static ClothesManager getClothesManager() {
+        return instance.clothesManager;
+    }
+
     private void registerListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, this);
     }
@@ -136,6 +147,7 @@ public class BetonQuest extends JavaPlugin {
         // reload the configuration
         LogUtils.getLogger().log(Level.FINE, "Reloading configuration");
         fileManager.init();
+        clothesManager.init();
         // load new static events
         new StaticEvents();
         // stop current global locations listener

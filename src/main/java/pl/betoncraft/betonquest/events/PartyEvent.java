@@ -17,18 +17,16 @@
  */
 package pl.betoncraft.betonquest.events;
 
-import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
-import pl.betoncraft.betonquest.core.id.ConditionID;
-import pl.betoncraft.betonquest.core.id.EventID;
+import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.VariableNumber;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
+import pl.betoncraft.betonquest.core.id.ConditionID;
+import pl.betoncraft.betonquest.core.id.EventID;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 import pl.betoncraft.betonquest.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,9 +37,9 @@ import java.util.UUID;
  */
 public class PartyEvent extends QuestEvent {
 
-    private ConditionID[] conditions;
-    private EventID[] events;
-    private VariableNumber range;
+    private final ConditionID[] conditions;
+    private final EventID[] events;
+    private final VariableNumber range;
 
     public PartyEvent(Instruction instruction) throws InstructionParseException {
         super(instruction);

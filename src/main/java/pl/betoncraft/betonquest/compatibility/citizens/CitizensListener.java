@@ -45,8 +45,10 @@ public class CitizensListener implements Listener {
         Bukkit.getPluginManager().registerEvents(this, BetonQuest.getInstance());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onNPCClick(final NPCRightClickEvent event) {
+        if (event.isCancelled()) return;
+
         if (NPCMoveEvent.blocksTalking(event.getNPC())) {
             return;
         }

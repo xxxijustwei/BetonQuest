@@ -7,7 +7,6 @@ dragon_tag_started: 'tag add dragon_started'
 dragon_tag_killed: 'tag add dragon_killed'
 dragon_tag_done: 'tag add dragon_done'
 
-
 dragon_accept_msg: 'notify &a&l接受任务 subtitle:&7讨伐灭尽龙 io:title'
 dragon_complete_msg: 'notify &a&l讨伐完成 subtitle:&7灭尽龙已击杀 io:title'
 dragon_reward_msg: 'notify &a&l任务完成 subtitle:&7奖励已发放 io:title'

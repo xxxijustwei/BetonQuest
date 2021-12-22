@@ -1,0 +1,19 @@
+npc-id: -1
+model-scale: 3.2
+quester: '--'
+first: 'start'
+stop: 'false'
+
+npc_options:
+  start:
+    text: '--'
+    pointer: 'buy,try,bye'
+player_options:
+  buy:
+    text: '&6&l购买时装'
+    events: "merchant_skin_buy"
+  try:
+    text: '&f&l试穿时装'
+    events: "merchant_skin_try"
+  bye:
+    text: '&f离开.'

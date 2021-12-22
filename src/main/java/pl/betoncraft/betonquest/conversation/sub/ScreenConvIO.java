@@ -14,6 +14,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.api.event.ScreenConversationEvent;
 import pl.betoncraft.betonquest.conversation.Conversation;
 import pl.betoncraft.betonquest.conversation.ConversationIO;
 import pl.betoncraft.betonquest.utils.PlayerConverter;
@@ -90,7 +91,10 @@ public class ScreenConvIO implements ConversationIO, Listener {
                     optionComp.addOption(i, s);
                 }
 
-                BetonQuest.getScreenManager().getConvScreen().open(player, npcName, response, optionComp, !isOpen);
+                ScreenConversationEvent event = new ScreenConversationEvent(player, conv.getID(), npcName, response);
+                event.call();
+
+                BetonQuest.getScreenManager().getConvScreen().open(player, event.getNpcName(), event.getResponse(), optionComp, !isOpen);
                 if (!isOpen) {
                     isOpen = true;
                 }

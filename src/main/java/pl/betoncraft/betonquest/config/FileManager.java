@@ -5,8 +5,10 @@ import com.taylorswiftcn.justwei.util.MegumiUtil;
 import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.clothes.Merchant;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class FileManager extends JustConfiguration {
 
@@ -28,6 +30,7 @@ public class FileManager extends JustConfiguration {
 
         createPackage();
         loadPackage();
+        initClothes();
     }
 
     private void createPackage() {
@@ -87,5 +90,34 @@ public class FileManager extends JustConfiguration {
 
     public static String getNPC(int id) {
         return packages.getNpc().get(id);
+    }
+
+    public void initClothes() {
+        File file = new File(plugin.getDataFolder(), "clothes");
+        if (!file.exists()) {
+            copyResource(file, "clothes/merchant.yml", "merchant.yml");
+            copyResource(file, "clothes/conv_merchant_display.yml", "conv_merchant_display.yml");
+            copyResource(file, "clothes/conv_merchant_shop.yml", "conv_merchant_shop.yml");
+        }
+
+        ConfigAccessor display = new ConfigAccessor(new File(file, "conv_merchant_display.yml"), AccessorType.CONVERSATION);
+        ConfigAccessor shop = new ConfigAccessor(new File(file, "conv_merchant_shop.yml"), AccessorType.CONVERSATION);
+        packages.addConversations("conv_merchant_display", display);
+        packages.addConversations("conv_merchant_shop", shop);
+
+        packages.addEvents("merchant_skin_buy", "buyclothes");
+        packages.addEvents("merchant_skin_try", "modelclothes merchant 20");
+    }
+
+    public HashMap<Integer, Merchant> getMerchant() {
+        File file = new File(plugin.getDataFolder(), "clothes/merchant.yml");
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        HashMap<Integer, Merchant> map = new HashMap<>();
+
+        for (String key : yaml.getKeys(false)) {
+            map.put(Integer.parseInt(key), new Merchant(yaml.getConfigurationSection(key)));
+        }
+
+        return map;
     }
 }

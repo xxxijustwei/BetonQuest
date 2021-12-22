@@ -142,6 +142,14 @@ public class ConfigPackage {
         return conv;
     }
 
+    public void addEvents(String id, String statement) {
+        events.put(id, statement);
+    }
+
+    public void addConversations(String id, ConfigAccessor accessor) {
+        conversations.put(id, accessor);
+    }
+
     /**
      * @return if the package is enabled (true) or disabled (false)
      */

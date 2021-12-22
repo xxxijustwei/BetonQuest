@@ -43,9 +43,9 @@ import java.util.stream.Collectors;
  */
 public class ConversationData {
 
-    private static ArrayList<String> externalPointers = new ArrayList<>();
+    private final static ArrayList<String> externalPointers = new ArrayList<>();
 
-    private String convName;
+    private final String convName;
 
     @Getter private final int npcID;
     @Getter private final double modelScale;
@@ -125,9 +125,9 @@ public class ConversationData {
             finalEvents = new EventID[0];
         }
         // load all NPC options
-        ConfigurationSection NPCSection = pack.getConversation(name).getYaml().getConfigurationSection("NPC_options");
+        ConfigurationSection NPCSection = pack.getConversation(name).getYaml().getConfigurationSection("npc_options");
         if (NPCSection == null) {
-            throw new InstructionParseException("NPC_options section not defined");
+            throw new InstructionParseException("npc_options section not defined");
         }
         NPCOptions = new HashMap<>();
         for (String key : NPCSection.getKeys(false)) {
@@ -288,7 +288,7 @@ public class ConversationData {
     }
 
     public String getText(UUID uuid, String option, OptionType type) {
-        Option o = null;
+        Option o;
         if (type == OptionType.NPC) {
             o = NPCOptions.get(option);
         } else {
@@ -368,14 +368,14 @@ public class ConversationData {
      */
     private abstract class Option {
 
-        private String name;
-        private OptionType type;
+        private final String name;
+        private final OptionType type;
 
         private String text;
-        private List<ConditionID> conditions = new ArrayList<>();
-        private List<EventID> events = new ArrayList<>();
-        private List<String> pointers;
-        private List<String> extendLinks;
+        private final List<ConditionID> conditions = new ArrayList<>();
+        private final List<EventID> events = new ArrayList<>();
+        private final List<String> pointers;
+        private final List<String> extendLinks;
 
         public Option(String name, String type, String visibleType) throws InstructionParseException {
             this.name = name;
@@ -572,7 +572,7 @@ public class ConversationData {
      */
     private class NPCOption extends Option {
         public NPCOption(String name) throws InstructionParseException {
-            super(name, "NPC_options", "NPC option");
+            super(name, "npc_options", "NPC option");
         }
     }
 }

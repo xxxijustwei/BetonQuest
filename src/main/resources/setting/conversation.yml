@@ -3,7 +3,7 @@ model-scale: 4
 quester: '士官长'
 first: 'start,normal,quest_dragon_done,quest_dragon_started'
 stop: 'false'
-NPC_options:
+npc_options:
   normal:
     text: '&f你好，%player%！很高兴见到你'
     conditions: 'dragon_quest_done'
