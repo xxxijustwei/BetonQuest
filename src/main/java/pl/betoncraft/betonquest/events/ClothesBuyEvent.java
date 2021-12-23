@@ -37,10 +37,10 @@ public class ClothesBuyEvent extends QuestEvent {
 
         switch (result) {
             case 0:
-                player.sendMessage(" &a购买成功！时装已发放到你的背包");
+                player.sendMessage("§8§l[§6§l!§8§l] §a购买成功！时装已发放到你的背包");
                 return;
             case 1:
-                player.sendMessage(" &a购买成功！时装已通过邮箱发放，请前往邮箱查收");
+                player.sendMessage("§8§l[§6§l!§8§l] §a购买成功！时装已通过邮箱发放，请前往邮箱查收");
         }
     }
 }
