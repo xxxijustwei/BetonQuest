@@ -98,6 +98,7 @@ public class FileManager extends JustConfiguration {
             copyResource(file, "clothes/merchant.yml", "merchant.yml");
             copyResource(file, "clothes/conv_merchant_display.yml", "conv_merchant_display.yml");
             copyResource(file, "clothes/conv_merchant_shop.yml", "conv_merchant_shop.yml");
+            copyResource(file, "clothes/events.yml", "events.yml");
         }
 
         ConfigAccessor display = new ConfigAccessor(new File(file, "conv_merchant_display.yml"), AccessorType.CONVERSATION);
@@ -105,8 +106,12 @@ public class FileManager extends JustConfiguration {
         packages.addConversations("conv_merchant_display", display);
         packages.addConversations("conv_merchant_shop", shop);
 
-        packages.addEvents("merchant_skin_buy", "buyclothes");
-        packages.addEvents("merchant_skin_try", "modelclothes merchant 20");
+        File event = new File(file, "events.yml");
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(event);
+        for (String key : yaml.getKeys(false)) {
+            String statement = yaml.getString(key);
+            packages.addEvents(key, statement);
+        }
     }
 
     public HashMap<Integer, Merchant> getMerchant() {

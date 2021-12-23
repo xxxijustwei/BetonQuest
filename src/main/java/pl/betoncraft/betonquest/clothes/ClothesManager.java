@@ -11,7 +11,8 @@ public class ClothesManager {
 
     private HashMap<Integer, Merchant> merchantMap;
 
-    @Getter private final HashMap<UUID, Integer> npcMap = new HashMap<>();
+    @Getter
+    private final HashMap<UUID, Integer> dialogue = new HashMap<>();
 
     public ClothesManager() {
         this.merchantMap = new HashMap<>();
@@ -26,12 +27,12 @@ public class ClothesManager {
         return merchantMap.get(npcID);
     }
 
-    public Integer getCurrentNpc(UUID uuid) {
-        return npcMap.get(uuid);
+    public Integer getDialogueNPC(UUID uuid) {
+        return dialogue.get(uuid);
     }
 
-    public Merchant getCurrentMerchant(UUID uuid) {
-        Integer npcID = getCurrentNpc(uuid);
+    public Merchant getDialogueMerchant(UUID uuid) {
+        Integer npcID = getDialogueNPC(uuid);
         if (npcID == null) return null;
 
         return merchantMap.get(npcID);

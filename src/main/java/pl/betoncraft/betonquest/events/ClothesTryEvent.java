@@ -14,12 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class ModelClothesEvent extends QuestEvent {
+public class ClothesTryEvent extends QuestEvent {
 
     private final String skin;
     private final Integer duration;
 
-    public ModelClothesEvent(Instruction instruction) throws InstructionParseException {
+    public ClothesTryEvent(Instruction instruction) throws InstructionParseException {
         super(instruction);
         String s = instruction.next();
         String d = instruction.getOptional("d");
@@ -39,9 +39,9 @@ public class ModelClothesEvent extends QuestEvent {
     }
 
     private List<String> getMerchantSkins(UUID uuid) {
-        Merchant merchant = BetonQuest.getClothesManager().getCurrentMerchant(uuid);
+        Merchant merchant = BetonQuest.getClothesManager().getDialogueMerchant(uuid);
         if (merchant == null) return new ArrayList<>();
 
-        return merchant.getSkin();
+        return merchant.getSkins();
     }
 }

@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.api.event.PlayerConversationStartEvent;
 import pl.betoncraft.betonquest.api.event.ScreenConversationEvent;
@@ -38,7 +39,7 @@ public class ClothesListener implements Listener {
             new CitizensConversation(uuid, "conv_merchant_shop", e.getNPC().getEntity().getLocation(), e.getNPC());
         }
 
-        BetonQuest.getClothesManager().getNpcMap().put(uuid, npcID);
+        BetonQuest.getClothesManager().getDialogue().put(uuid, npcID);
     }
 
     @EventHandler
@@ -49,7 +50,7 @@ public class ClothesListener implements Listener {
 
         if (!(convID.equals("conv_merchant_display") || convID.equals("conv_merchant_shop"))) return;
 
-        Merchant merchant = BetonQuest.getClothesManager().getCurrentMerchant(uuid);
+        Merchant merchant = BetonQuest.getClothesManager().getDialogueMerchant(uuid);
         if (merchant == null) return;
 
         e.setNpcName(merchant.getName());
@@ -66,7 +67,7 @@ public class ClothesListener implements Listener {
         int npcID = data.getNpcID();
         if (npcID != -1) return;
 
-        Integer realID = BetonQuest.getClothesManager().getCurrentNpc(uuid);
+        Integer realID = BetonQuest.getClothesManager().getDialogueNPC(uuid);
         if (realID == null) return;
         Entity entity = CitizensAPI.getNPCRegistry().getById(realID).getEntity();
 
@@ -81,7 +82,13 @@ public class ClothesListener implements Listener {
         Merchant merchant = BetonQuest.getClothesManager().getMerchant(id);
         if (merchant == null) return;
 
-        ArmourAPI.setEntitySkin(npc.getEntity().getUniqueId(), merchant.getSkin());
+        ArmourAPI.setEntitySkin(npc.getEntity().getUniqueId(), merchant.getSkins());
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        UUID uuid = e.getPlayer().getUniqueId();
+        BetonQuest.getClothesManager().getDialogue().remove(uuid);
     }
 
 }
