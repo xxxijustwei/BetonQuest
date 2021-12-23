@@ -2,6 +2,8 @@ package pl.betoncraft.betonquest.events;
 
 import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.clothes.Merchant;
@@ -35,7 +37,18 @@ public class ClothesTryEvent extends QuestEvent {
 
         if (duration <= 0) return;
 
-        Bukkit.getScheduler().runTaskLaterAsynchronously(BetonQuest.getInstance(), () -> ArmourAPI.setEntitySkin(uuid, new ArrayList<>()), duration * 20);
+        Integer tid = BetonQuest.getClothesManager().getTryMap().get(uuid);
+        if (tid != null) {
+            Bukkit.getScheduler().cancelTask(tid);
+        }
+
+        BukkitTask task = new BukkitRunnable() {
+            @Override
+            public void run() {
+                ArmourAPI.setEntitySkin(uuid, new ArrayList<>());
+            }
+        }.runTaskLaterAsynchronously(BetonQuest.getInstance(), duration * 20);
+        BetonQuest.getClothesManager().getTryMap().put(uuid, task.getTaskId());
     }
 
     private List<String> getMerchantSkins(UUID uuid) {

@@ -89,6 +89,7 @@ public class ClothesListener implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         UUID uuid = e.getPlayer().getUniqueId();
         BetonQuest.getClothesManager().getDialogue().remove(uuid);
+        BetonQuest.getClothesManager().getTryMap().remove(uuid);
     }
 
 }

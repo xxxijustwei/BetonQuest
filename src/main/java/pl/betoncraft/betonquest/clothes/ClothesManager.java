@@ -13,12 +13,14 @@ import java.util.UUID;
 public class ClothesManager {
 
     private HashMap<Integer, Merchant> merchantMap;
+    @Getter private final HashMap<UUID, Integer> tryMap;
 
     @Getter
     private final HashMap<UUID, Integer> dialogue = new HashMap<>();
 
     public ClothesManager() {
         this.merchantMap = new HashMap<>();
+        this.tryMap = new HashMap<>();
     }
 
     public void init() {
