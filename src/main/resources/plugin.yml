@@ -7,17 +7,17 @@ depend:
   - MegumiLib
   - Zaphkiel
   - JustMessage
+  - GemsEconomy
 softdepend:
   - Citizens
   - MythicMobs
   - Vault
-  - GemsEconomy
   - WorldEdit
   - WorldGuard
   - PlaceholderAPI
   - HolographicDisplays
   - ProtocolLib
-  - JustShop
+  - JustStore
 version: ${project.version}
 commands:
   betonquest:
