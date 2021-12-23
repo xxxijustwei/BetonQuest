@@ -76,7 +76,7 @@ public class BetonQuest extends JavaPlugin {
         registerListener(new MobKillListener());
         registerListener(new CustomDropListener());
         registerListener(new CustomDropListener());
-        registerListener(new CombatTagger());
+        // registerListener(new CombatTagger());
         registerListener(new ConversationListener());
         registerListener(new ClothesListener());
 
