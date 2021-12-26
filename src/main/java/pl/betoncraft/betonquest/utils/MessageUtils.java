@@ -165,10 +165,10 @@ public class MessageUtils {
     public static void playSound(UUID uuid, String soundName) {
         Player player = PlayerConverter.getPlayer(uuid);
         if (player == null) return;
-        String rawSound = BetonQuest.getInstance().getConfig().getString("sounds." + soundName);
+        String rawSound = BetonQuest.getFileManager().getConfig().getString("sounds." + soundName);
         if (!rawSound.equalsIgnoreCase("false")) {
             try {
-                player.playSound(player.getLocation(), Sound.valueOf(rawSound), 1F, 1F);
+                player.playSound(player.getLocation(), Sound.valueOf(rawSound), 0.3F, 1F);
             } catch (IllegalArgumentException e) {
                 LogUtils.getLogger().log(Level.WARNING, "Unknown sound type: " + rawSound);
                 LogUtils.logThrowable(e);

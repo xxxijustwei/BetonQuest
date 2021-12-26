@@ -11,8 +11,8 @@ notify_pullback: 'true'
 remove_items_after_respawn: 'true'
 quest_items_unbreakable: 'true'
 sounds:
-  start: ENTITY_VILLAGER_AMBIENT
-  end: ENTITY_VILLAGER_YES
+  start: BLOCK_NOTE_HARP
+  end: BLOCK_NOTE_BELL
   journal: ENTITY_BAT_TAKEOFF
   update: 'false'
   full: 'false'
