@@ -54,7 +54,7 @@ public class BetonQuest extends JavaPlugin {
         fileManager.init();
         storageManager.init();
 
-        clothesManager = new ClothesManager();
+        clothesManager = new ClothesManager(this);
         clothesManager.init();
 
         questManager = new QuestManager(this);
@@ -78,7 +78,6 @@ public class BetonQuest extends JavaPlugin {
         registerListener(new CustomDropListener());
         // registerListener(new CombatTagger());
         registerListener(new ConversationListener());
-        registerListener(new ClothesListener());
 
         getCommand("betonquest").setExecutor(new MainCommand());
 
@@ -139,7 +138,7 @@ public class BetonQuest extends JavaPlugin {
         return instance.clothesManager;
     }
 
-    private void registerListener(Listener listener) {
+    public void registerListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, this);
     }
 
