@@ -27,7 +27,6 @@ public class PlayerListener implements Listener {
             BetonQuest.getInstance().putPlayerData(uuid, playerData);
             playerData.startObjectives();
             GlobalObjectives.startAll(uuid);
-            playerData.getJournal().update();
         });
     }
 
@@ -52,6 +51,6 @@ public class PlayerListener implements Listener {
             }
 
             data.getJournal().update();
-        }, 20);
+        }, 30);
     }
 }
