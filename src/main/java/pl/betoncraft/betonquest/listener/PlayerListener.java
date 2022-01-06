@@ -46,9 +46,12 @@ public class PlayerListener implements Listener {
 
         Scheduler.runLater(() -> {
             PlayerData data = BetonQuest.getInstance().getPlayerData(player.getUniqueId());
-            if (data == null) return;
+            if (data == null) {
+                plugin.getLogger().info("update " + player.getName() + " journal failed!");
+                return;
+            }
 
             data.getJournal().update();
-        }, 10);
+        }, 20);
     }
 }
