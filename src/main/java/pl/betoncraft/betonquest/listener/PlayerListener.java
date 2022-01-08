@@ -1,6 +1,6 @@
 package pl.betoncraft.betonquest.listener;
 
-import net.sakuragame.eternal.dragoncore.api.event.YamlSendFinishedEvent;
+import com.taylorswiftcn.megumi.uifactory.event.screen.UIFScreenOpenEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,6 +26,7 @@ public class PlayerListener implements Listener {
             PlayerData playerData = BetonQuest.getStorageManager().getPlayerData(uuid);
             BetonQuest.getInstance().putPlayerData(uuid, playerData);
             playerData.startObjectives();
+            playerData.getJournal().update();
             GlobalObjectives.startAll(uuid);
         });
     }
@@ -40,17 +41,14 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onFinished(YamlSendFinishedEvent e) {
+    public void onFinished(UIFScreenOpenEvent e) {
         Player player = e.getPlayer();
+        String screenID = e.getScreenID();
+        if (screenID.equals("questBar")) return;
 
-        Scheduler.runLater(() -> {
-            PlayerData data = BetonQuest.getInstance().getPlayerData(player.getUniqueId());
-            if (data == null) {
-                plugin.getLogger().info("update " + player.getName() + " journal failed!");
-                return;
-            }
+        PlayerData data = BetonQuest.getInstance().getPlayerData(player.getUniqueId());
+        if (data == null) return;
 
-            data.getJournal().update();
-        }, 30);
+        data.getJournal().update();
     }
 }
