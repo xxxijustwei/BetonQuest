@@ -23,10 +23,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Holds configuration files of the package
@@ -89,11 +86,11 @@ public class ConfigPackage {
         File dir = new File(folder, type.getFolder());
         if (!(dir.exists() && dir.isDirectory())) return setting;
 
-        File[] files = dir.listFiles();
-        if (files == null || files.length == 0) return setting;
+        List<File> files = getYamlFiles(dir, new ArrayList<>());
+        if (files == null || files.size() == 0) return setting;
 
-        Arrays.stream(files).filter(file -> file.getName().endsWith(".yml")).forEach(file -> {
-            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        files.forEach(sub -> {
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(sub);
             for (String key : yaml.getKeys(false)) {
                 String value = yaml.getString(key);
                 setting.put(key, value);
@@ -109,11 +106,11 @@ public class ConfigPackage {
         File dir = new File(folder, AccessorType.JOURNAL.getFolder());
         if (!(dir.exists() && dir.isDirectory())) return profiles;
 
-        File[] files = dir.listFiles();
-        if (files == null || files.length == 0) return profiles;
+        List<File> files = getYamlFiles(dir, new ArrayList<>());
+        if (files == null || files.size() == 0) return profiles;
 
-        Arrays.stream(files).filter(file -> file.getName().endsWith(".yml")).forEach(file -> {
-            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        files.forEach(sub -> {
+            YamlConfiguration yaml = YamlConfiguration.loadConfiguration(sub);
             for (String key : yaml.getKeys(false)) {
                 String title = MegumiUtil.onReplace(yaml.getString(key + ".title"));
                 List<String> desc = MegumiUtil.onReplace(yaml.getStringList(key + ".desc"));
@@ -130,16 +127,31 @@ public class ConfigPackage {
         File dir = new File(folder, AccessorType.CONVERSATION.getFolder());
         if (!(dir.exists() && dir.isDirectory())) return conv;
 
-        File[] files = dir.listFiles();
-        if (files == null || files.length == 0) return conv;
+        List<File> files = getYamlFiles(dir, new ArrayList<>());
+        if (files == null || files.size() == 0) return conv;
 
-        Arrays.stream(files).filter(file -> file.getName().endsWith(".yml")).forEach(file -> {
-            String fileName = file.getName();
-            ConfigAccessor accessor = new ConfigAccessor(new File(dir, fileName), AccessorType.CONVERSATION);
+        files.forEach(sub -> {
+            String fileName = sub.getName();
+            ConfigAccessor accessor = new ConfigAccessor(sub, AccessorType.CONVERSATION);
             conv.put(fileName.substring(0, fileName.length() - 4), accessor);
         });
 
         return conv;
+    }
+
+    public List<File> getYamlFiles(File folder, List<File> list) {
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (final File file : files) {
+                if (file.isDirectory()) {
+                    getYamlFiles(file, list);
+                }
+                else if (file.isFile() && file.getName().endsWith(".yml")) {
+                    list.add(file);
+                }
+            }
+        }
+        return list;
     }
 
     public void addEvents(String id, String statement) {
