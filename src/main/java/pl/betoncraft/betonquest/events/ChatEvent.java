@@ -16,7 +16,7 @@ public class ChatEvent extends QuestEvent {
 
     public ChatEvent(Instruction instruction) throws InstructionParseException {
         super(instruction);
-        this.message = instruction.next();
+        this.message = instruction.getInstruction().split(" ", 2)[1];
     }
 
     @Override
