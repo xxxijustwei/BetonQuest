@@ -546,14 +546,19 @@ public class Conversation implements Listener {
      */
     private class PlayerEventRunner extends BukkitRunnable {
 
-        private String option;
+        private final String option;
 
         public PlayerEventRunner(String option) {
             this.option = option;
         }
 
         public void run() {
-            new ResponsePrinter(option).runTaskAsynchronously(BetonQuest.getInstance());
+            if (option.endsWith("_sync")) {
+                new ResponsePrinter(option).runTask(BetonQuest.getInstance());
+            }
+            else {
+                new ResponsePrinter(option).runTaskAsynchronously(BetonQuest.getInstance());
+            }
         }
     }
 
