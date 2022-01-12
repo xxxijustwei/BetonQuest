@@ -18,9 +18,12 @@ public class ConversationListener implements Listener {
         if (data == null) return;
 
         int npcID = data.getNpcID();
-        if (npcID == -1) return;
-        Entity entity = CitizensAPI.getNPCRegistry().getById(npcID).getEntity();
-
-        ConversationScreen.setConvNPC(player, entity.getUniqueId(), data.getModelScale());
+        if (npcID == -1) {
+            ConversationScreen.setConvNPC(player, player.getUniqueId(), data.getModelScale());
+        }
+        else {
+            Entity entity = CitizensAPI.getNPCRegistry().getById(npcID).getEntity();
+            ConversationScreen.setConvNPC(player, entity.getUniqueId(), data.getModelScale());
+        }
     }
 }
