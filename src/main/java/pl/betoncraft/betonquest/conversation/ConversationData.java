@@ -314,10 +314,6 @@ public class ConversationData {
         return options.get(option).getEvents(uuid);
     }
 
-    public List<EventID> getExecute(String option) {
-        return playerOptions.get(option).getExecute();
-    }
-
     public String[] getPointers(UUID uuid, String option, OptionType type) {
         HashMap<String, Option> options;
         if (type == OptionType.NPC) {
@@ -372,7 +368,6 @@ public class ConversationData {
 
         private String text;
         private final List<ConditionID> conditions = new ArrayList<>();
-        private final List<EventID> execute = new ArrayList<>();
         private final List<EventID> events = new ArrayList<>();
         private final List<String> pointers;
         private final List<String> extendLinks;
@@ -417,18 +412,6 @@ public class ConversationData {
                 }
             } catch (ObjectNotFoundException e) {
                 throw new InstructionParseException("Error in '" + name + "' " + visibleType + " option's conditions: " + e.getMessage(), e);
-            }
-
-            // Execute
-            try {
-                for (String rawEvent : conv.getString("execute", conv.getString("execute", "")).split(",")) {
-                    if (!Objects.equals(rawEvent, "")) {
-                        execute.add(new EventID(rawEvent.trim()));
-                    }
-                }
-            } catch (ObjectNotFoundException e) {
-                throw new InstructionParseException("Error in '" + name + "' " + visibleType + " option's execute: "
-                        + e.getMessage(), e);
             }
 
             // Events
@@ -530,10 +513,6 @@ public class ConversationData {
             }
 
             return ret.toArray(new EventID[0]);
-        }
-
-        public List<EventID> getExecute() {
-            return execute;
         }
 
         public String[] getPointers() {

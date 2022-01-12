@@ -231,10 +231,6 @@ public class Conversation implements Listener {
         inOut.clear();
 
         String option = current.get(number);
-        for (EventID event : data.getExecute(option)) {
-            QuestManager.event(uuid, event);
-        }
-
         new PlayerEventRunner(option).runTask(BetonQuest.getInstance());
 
         // clear hashmap
