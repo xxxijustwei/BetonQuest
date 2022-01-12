@@ -1,6 +1,6 @@
 package pl.betoncraft.betonquest.events;
 
-import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
+import eos.moe.armourers.api.DragonAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -10,6 +10,7 @@ import pl.betoncraft.betonquest.clothes.Merchant;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
+import pl.betoncraft.betonquest.utils.PlayerConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,9 +32,18 @@ public class ClothesTryEvent extends QuestEvent {
 
     @Override
     public void run(UUID uuid) throws QuestRuntimeException {
+        if (skin.equals("recover")) {
+            DragonAPI.updatePlayerSkin(PlayerConverter.getPlayer(uuid));
+            Integer tid = BetonQuest.getClothesManager().getTryMap().get(uuid);
+            if (tid != null) {
+                Bukkit.getScheduler().cancelTask(tid);
+            }
+            return;
+        }
+
         List<String> skins = skin.equals("merchant") ? getMerchantSkins(uuid) : Arrays.asList(skin.split(";"));
 
-        ArmourAPI.setEntitySkin(uuid, skins);
+        DragonAPI.setEntitySkin(uuid, skins);
 
         if (duration <= 0) return;
 
@@ -45,7 +55,7 @@ public class ClothesTryEvent extends QuestEvent {
         BukkitTask task = new BukkitRunnable() {
             @Override
             public void run() {
-                ArmourAPI.setEntitySkin(uuid, new ArrayList<>());
+                DragonAPI.updatePlayerSkin(PlayerConverter.getPlayer(uuid));
             }
         }.runTaskLaterAsynchronously(BetonQuest.getInstance(), duration * 20);
         BetonQuest.getClothesManager().getTryMap().put(uuid, task.getTaskId());
