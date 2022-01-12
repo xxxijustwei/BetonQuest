@@ -228,10 +228,14 @@ public class Conversation implements Listener {
      * @param number the message player has sent on chat
      */
     public void passPlayerAnswer(int number) {
-
         inOut.clear();
 
-        new PlayerEventRunner(current.get(number)).runTask(BetonQuest.getInstance());
+        String option = current.get(number);
+        for (EventID event : data.getExecute(option)) {
+            QuestManager.event(uuid, event);
+        }
+
+        new PlayerEventRunner(option).runTask(BetonQuest.getInstance());
 
         // clear hashmap
         current.clear();
@@ -553,12 +557,7 @@ public class Conversation implements Listener {
         }
 
         public void run() {
-            if (option.endsWith("_sync")) {
-                new ResponsePrinter(option).runTask(BetonQuest.getInstance());
-            }
-            else {
-                new ResponsePrinter(option).runTaskAsynchronously(BetonQuest.getInstance());
-            }
+            new ResponsePrinter(option).runTaskAsynchronously(BetonQuest.getInstance());
         }
     }
 
