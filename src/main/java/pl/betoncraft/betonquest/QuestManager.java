@@ -389,6 +389,7 @@ public class QuestManager {
         registerEvents("selfmodel", SelfModelEvent.class);
         registerEvents("clothestry", ClothesTryEvent.class);
         registerEvents("clothesbuy", ClothesBuyEvent.class);
+        registerEvents("kitchoiceopen", KitChoiceOpenEvent.class);
     }
 
     private void registerObjectives() {

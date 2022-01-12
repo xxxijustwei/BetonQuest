@@ -2,6 +2,7 @@ package pl.betoncraft.betonquest.events;
 
 import eos.moe.armourers.api.DragonAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import pl.betoncraft.betonquest.BetonQuest;
@@ -32,8 +33,10 @@ public class ClothesTryEvent extends QuestEvent {
 
     @Override
     public void run(UUID uuid) throws QuestRuntimeException {
+        Player player = PlayerConverter.getPlayer(uuid);
+
         if (skin.equals("recover")) {
-            DragonAPI.updatePlayerSkin(PlayerConverter.getPlayer(uuid));
+            DragonAPI.updatePlayerSkin(player);
             Integer tid = BetonQuest.getClothesManager().getTryMap().get(uuid);
             if (tid != null) {
                 Bukkit.getScheduler().cancelTask(tid);
@@ -55,7 +58,7 @@ public class ClothesTryEvent extends QuestEvent {
         BukkitTask task = new BukkitRunnable() {
             @Override
             public void run() {
-                DragonAPI.updatePlayerSkin(PlayerConverter.getPlayer(uuid));
+                DragonAPI.updatePlayerSkin(player);
             }
         }.runTaskLaterAsynchronously(BetonQuest.getInstance(), duration * 20);
         BetonQuest.getClothesManager().getTryMap().put(uuid, task.getTaskId());

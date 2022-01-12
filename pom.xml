@@ -131,6 +131,13 @@
         </dependency>
 
         <dependency>
+            <groupId>net.sakuragame.eternal</groupId>
+            <artifactId>JustKit</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>eos.moe</groupId>
             <artifactId>DragonArmourers</artifactId>
             <version>6.47</version>
