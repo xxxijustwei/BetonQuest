@@ -390,6 +390,7 @@ public class QuestManager {
         registerEvents("clothestry", ClothesTryEvent.class);
         registerEvents("clothesbuy", ClothesBuyEvent.class);
         registerEvents("kitchoiceopen", KitChoiceOpenEvent.class);
+        registerEvents("chat", ChatEvent.class);
     }
 
     private void registerObjectives() {
