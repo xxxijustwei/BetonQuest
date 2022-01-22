@@ -19,6 +19,7 @@ package pl.betoncraft.betonquest.core;
 
 import com.google.common.collect.Lists;
 import com.taylorswiftcn.justwei.util.MegumiUtil;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.sakuragame.eternal.justmessage.api.MessageAPI;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -154,7 +155,10 @@ public class Journal {
         JournalProfile profile = FileManager.getPackages().getJournal().get(pointer);
         if (profile == null) return;
 
-        MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), profile.getTitle(), generatePointerContent(profile));
+        Player player = PlayerConverter.getPlayer(uuid);
+        String title = PlaceholderAPI.setPlaceholders(player, profile.getTitle());
+
+        MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), title, generatePointerContent(profile));
     }
 
     /**
