@@ -41,10 +41,10 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onFinished(UIFScreenOpenEvent e) {
+    public void onOpen(UIFScreenOpenEvent e) {
         Player player = e.getPlayer();
         String screenID = e.getScreenID();
-        if (screenID.equals("questBar")) return;
+        if (!screenID.equals("questBar")) return;
 
         PlayerData data = BetonQuest.getInstance().getPlayerData(player.getUniqueId());
         if (data == null) return;
