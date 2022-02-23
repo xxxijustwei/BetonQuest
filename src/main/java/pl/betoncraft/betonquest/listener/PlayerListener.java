@@ -23,7 +23,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onFirst(AsyncPlayerPreLoginEvent e) {
-        if (e.getLoginResult() == AsyncPlayerPreLoginEvent.Result.ALLOWED) return;
+        if (e.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED) return;
 
         UUID uuid = e.getUniqueId();
         PlayerData account = BetonQuest.getStorageManager().getPlayerData(uuid);
