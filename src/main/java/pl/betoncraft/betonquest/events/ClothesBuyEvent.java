@@ -4,7 +4,6 @@ import net.sakuragame.eternal.gemseconomy.api.GemsEconomyAPI;
 import net.sakuragame.eternal.justmessage.api.MessageAPI;
 import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.clothes.Merchant;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;

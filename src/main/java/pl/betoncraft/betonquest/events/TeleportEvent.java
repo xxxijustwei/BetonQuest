@@ -21,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.core.Instruction;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.conversation.Conversation;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;

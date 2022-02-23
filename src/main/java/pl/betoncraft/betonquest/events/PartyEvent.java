@@ -18,7 +18,6 @@
 package pl.betoncraft.betonquest.events;
 
 import pl.betoncraft.betonquest.QuestManager;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.VariableNumber;
 import pl.betoncraft.betonquest.core.id.ConditionID;

@@ -24,11 +24,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.metadata.MetadataValue;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.VariableNumber;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 import pl.betoncraft.betonquest.utils.LocationData;
-import pl.betoncraft.betonquest.utils.Utils;
 
 import java.util.Collection;
 import java.util.List;

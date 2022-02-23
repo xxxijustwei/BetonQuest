@@ -17,20 +17,15 @@
  */
 package pl.betoncraft.betonquest.events;
 
-import org.bukkit.scheduler.BukkitRunnable;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.id.ObjectiveID;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
-import pl.betoncraft.betonquest.utils.LogUtils;
-import pl.betoncraft.betonquest.utils.PlayerConverter;
 
 import java.util.Arrays;
 import java.util.UUID;
-import java.util.logging.Level;
 
 /**
  * Starts an objective for the player

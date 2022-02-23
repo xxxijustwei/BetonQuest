@@ -18,7 +18,7 @@
 package pl.betoncraft.betonquest.compatibility.protocollib;
 
 import pl.betoncraft.betonquest.core.Instruction;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
+import pl.betoncraft.betonquest.events.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 import pl.betoncraft.betonquest.utils.PlayerConverter;

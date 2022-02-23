@@ -30,7 +30,7 @@ import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.id.NoID;
 import pl.betoncraft.betonquest.api.Condition;
 import pl.betoncraft.betonquest.api.Objective;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
+import pl.betoncraft.betonquest.events.QuestEvent;
 import pl.betoncraft.betonquest.conditions.ChestItemCondition;
 import pl.betoncraft.betonquest.events.ChestTakeEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
@@ -38,7 +38,6 @@ import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 import pl.betoncraft.betonquest.utils.LocationData;
 import pl.betoncraft.betonquest.utils.LogUtils;
-import pl.betoncraft.betonquest.utils.PlayerConverter;
 
 import java.util.UUID;
 import java.util.logging.Level;

@@ -19,7 +19,6 @@ package pl.betoncraft.betonquest.events;
 
 import org.bukkit.World;
 import pl.betoncraft.betonquest.core.Instruction;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.utils.PlayerConverter;
 

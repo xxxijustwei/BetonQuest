@@ -21,7 +21,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.material.Lever;
 import pl.betoncraft.betonquest.core.Instruction;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 import pl.betoncraft.betonquest.utils.LocationData;

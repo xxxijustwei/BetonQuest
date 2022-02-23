@@ -1,7 +1,6 @@
 package pl.betoncraft.betonquest.events;
 
 import pl.betoncraft.betonquest.BetonQuest;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.PlayerData;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;

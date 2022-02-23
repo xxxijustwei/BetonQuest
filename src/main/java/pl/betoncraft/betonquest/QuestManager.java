@@ -6,7 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import pl.betoncraft.betonquest.api.Condition;
 import pl.betoncraft.betonquest.api.Objective;
 import pl.betoncraft.betonquest.api.Variable;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
+import pl.betoncraft.betonquest.events.QuestEvent;
 import pl.betoncraft.betonquest.compatibility.Compatibility;
 import pl.betoncraft.betonquest.conditions.*;
 import pl.betoncraft.betonquest.config.ConfigPackage;

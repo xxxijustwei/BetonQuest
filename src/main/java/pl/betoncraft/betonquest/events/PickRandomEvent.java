@@ -17,12 +17,10 @@
  */
 package pl.betoncraft.betonquest.events;
 
-import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
 import pl.betoncraft.betonquest.core.id.EventID;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.VariableNumber;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;

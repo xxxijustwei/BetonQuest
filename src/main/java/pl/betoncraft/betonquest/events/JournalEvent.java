@@ -20,11 +20,9 @@ package pl.betoncraft.betonquest.events;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.core.Journal;
-import pl.betoncraft.betonquest.api.event.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.utils.MessageUtils;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
