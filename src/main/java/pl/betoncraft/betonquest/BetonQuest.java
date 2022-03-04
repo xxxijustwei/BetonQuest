@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.betoncraft.betonquest.clothes.ClothesListener;
 import pl.betoncraft.betonquest.clothes.ClothesManager;
 import pl.betoncraft.betonquest.commands.*;
 import pl.betoncraft.betonquest.compatibility.Compatibility;
@@ -77,7 +76,7 @@ public class BetonQuest extends JavaPlugin {
         registerListener(new CustomDropListener());
         registerListener(new CustomDropListener());
         // registerListener(new CombatTagger());
-        registerListener(new ConversationListener());
+        registerListener(new UIListener());
 
         getCommand("betonquest").setExecutor(new MainCommand());
 

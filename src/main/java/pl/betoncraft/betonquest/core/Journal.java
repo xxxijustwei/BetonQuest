@@ -17,122 +17,101 @@
  */
 package pl.betoncraft.betonquest.core;
 
-import com.google.common.collect.Lists;
-import com.taylorswiftcn.justwei.util.MegumiUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.sakuragame.eternal.cargo.CargoAPI;
+import net.sakuragame.eternal.cargo.value.ValueType;
+import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justmessage.api.MessageAPI;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
+import net.sakuragame.eternal.justmessage.screen.ui.quest.JournalParams;
+import net.sakuragame.eternal.justmessage.screen.ui.quest.JournalScreen;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
 import pl.betoncraft.betonquest.config.ConfigPackage;
 import pl.betoncraft.betonquest.config.FileManager;
 import pl.betoncraft.betonquest.config.JournalProfile;
-import pl.betoncraft.betonquest.core.id.ConditionID;
-import pl.betoncraft.betonquest.exceptions.InstructionParseException;
-import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 import pl.betoncraft.betonquest.utils.*;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
-/**
- * Represents player's journal.
- *
- * @author Jakub Sapalski
- */
 public class Journal {
 
     private final UUID uuid;
+    private String stick;
     private final LinkedList<String> pointers;
+    private boolean change;
 
-    /**
-     * Creates new Journal instance from List of Pointers.
-     *
-     * @param uuid ID of the player whose journal is created
-     * @param list list of pointers to journal entries
-     */
     public Journal(UUID uuid, LinkedList<String> list) {
-        // generate texts from list of pointers
         this.uuid = uuid;
+        this.stick = CargoAPI.getValuesManager().getUserValue(uuid, ValueType.STORAGE, "QUEST_JOURNAL_STICK");
         this.pointers = list;
+        this.change = true;
     }
 
-    /**
-     * Retrieves the list of pointers in this journal.
-     *
-     * @return this Journal's list of pointers to journal entries
-     */
     public List<String> getPointers() {
         return pointers;
     }
 
-    /**
-     * Adds pointer to the journal. It needs to be updated now.
-     *
-     * @param pointer the pointer to be added
-     */
     public void addPointer(String pointer) {
         if (pointers.contains(pointer)) return;
 
         pointers.add(pointer);
-
         Scheduler.runAsync(() -> BetonQuest.getStorageManager().insertJournal(uuid, pointer));
+
+        change = true;
     }
 
-    /**
-     * Removes the pointer from journal. It needs to be updated now.
-     *
-     * @param pointerName the name of the pointer to remove
-     */
     public void removePointer(String pointerName) {
         for (String s : new ArrayList<>(pointers)) {
             if (s.equals(pointerName)) {
                 pointers.remove(s);
                 Scheduler.runAsync(() -> BetonQuest.getStorageManager().deleteJournal(uuid, pointerName));
+
+                change = true;
             }
         }
     }
 
-    /**
-     * Generates texts for every pointer and places them inside a List
-     *
-     */
-    public LinkedList<String> generatePointer() {
-        LinkedList<String> texts = new LinkedList<>();
+    public void openUI() {
+        if (change) {
+            List<JournalProfile> profiles = new ArrayList<>();
+            pointers.forEach(s -> profiles.add(FileManager.getPackages().getJournal().get(s)));
+            profiles.sort(Comparator.comparing(JournalProfile::getPriority));
 
-        ConfigPackage pack = FileManager.getPackages();
+            List<JournalParams> data = new LinkedList<>();
+            profiles.forEach(elm -> data.add(new JournalParams(elm.getId(), elm.getTitle(), elm.getStatus().getDisplay())));
 
-        for (String pointer : pointers) {
-            List<String> contents = pack.getJournal().containsKey(pointer) ? generatePointer(pack.getJournal().get(pointer)) : new ArrayList<>();
-            if (contents.isEmpty()) {
-                LogUtils.getLogger().log(Level.WARNING, "No text defined for journal entry " + pointer);
-            }
-
-            texts.addAll(contents);
+            JournalScreen ui = new JournalScreen(data, stick);
+            ui.open(PlayerConverter.getPlayer(uuid));
+            change = false;
+            return;
         }
 
-        return texts;
+        PacketSender.sendOpenGui(PlayerConverter.getPlayer(uuid), "quest");
+    }
+
+    public void setStick(String stick) {
+        if (!pointers.contains(stick)) return;
+
+        String oldStick = this.stick;
+        this.stick = stick;
+        JournalScreen.stickQuest(PlayerConverter.getPlayer(uuid), this.stick, oldStick);
+
+        this.update();
+        this.change = true;
     }
 
     private LinkedList<String> generatePointer(JournalProfile profile) {
         LinkedList<String> texts = new LinkedList<>();
 
         texts.add(profile.getTitle());
-        texts.addAll(generatePointerContent(profile));
+        texts.addAll(generateContent(profile));
 
         return texts;
     }
 
-    public LinkedList<String> generatePointerContent(JournalProfile profile) {
+    public LinkedList<String> generateContent(JournalProfile profile) {
         LinkedList<String> contents = new LinkedList<>();
 
         for (String s : profile.getContents()) {
@@ -147,24 +126,54 @@ public class Journal {
 
     public void update() {
         if (pointers.size() == 0) {
-            MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), "&7&o暂无待完成任务", new ArrayList<>());
+            MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), "&7&o暂无待完成任务&7&l(F)", new ArrayList<>());
             return;
         }
 
-        String pointer = pointers.getLast();
-        JournalProfile profile = FileManager.getPackages().getJournal().get(pointer);
+        if (stick == null || stick.isEmpty() || !pointers.contains(stick)) {
+            stick = pointers.getLast();
+            Scheduler.runAsync(() -> CargoAPI.getValuesManager().setUserValue(uuid, ValueType.STORAGE, "QUEST_JOURNAL_STICK", stick));
+        }
+
+        JournalProfile profile = FileManager.getPackages().getJournal().get(stick);
         if (profile == null) return;
 
         Player player = PlayerConverter.getPlayer(uuid);
-        String title = PlaceholderAPI.setPlaceholders(player, profile.getTitle());
+        String title = PlaceholderAPI.setPlaceholders(player, profile.getTitle()) + "&7&l(F)";
 
-        MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), title, generatePointerContent(profile));
+        MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), title, generateContent(profile));
     }
 
-    /**
-     * Clears the Journal completely but doesn't touch the database.
-     */
     public void clear() {
         pointers.clear();
+    }
+
+    public enum Status {
+        UNDER_WAY(0, "&a进行中.."),
+        FINISHED(1, "&e已完成");
+
+        private final int id;
+        private final String display;
+
+        Status(int id, String display) {
+            this.id = id;
+            this.display = display;
+        }
+
+        public int getID() {
+            return id;
+        }
+
+        public String getDisplay() {
+            return display;
+        }
+
+        public static Status match(int id) {
+            for (Status status : values()) {
+                if (status.getID() == id) return status;
+            }
+
+            return null;
+        }
     }
 }

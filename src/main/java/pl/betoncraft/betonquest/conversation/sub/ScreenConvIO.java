@@ -2,10 +2,9 @@ package pl.betoncraft.betonquest.conversation.sub;
 
 import com.taylorswiftcn.megumi.uifactory.event.comp.UIFCompSubmitEvent;
 import com.taylorswiftcn.megumi.uifactory.event.screen.UIFScreenCloseEvent;
-import net.sakuragame.eternal.dragoncore.network.PacketSender;
 import net.sakuragame.eternal.justmessage.api.MessageAPI;
-import net.sakuragame.eternal.justmessage.screen.ui.conversation.ConversationScreen;
-import net.sakuragame.eternal.justmessage.screen.ui.conversation.OptionComp;
+import net.sakuragame.eternal.justmessage.screen.ui.quest.ConversationScreen;
+import net.sakuragame.eternal.justmessage.screen.ui.quest.OptionComp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -18,7 +17,6 @@ import pl.betoncraft.betonquest.api.event.ScreenConversationEvent;
 import pl.betoncraft.betonquest.conversation.Conversation;
 import pl.betoncraft.betonquest.conversation.ConversationIO;
 import pl.betoncraft.betonquest.utils.PlayerConverter;
-import pl.betoncraft.betonquest.utils.Scheduler;
 
 import java.util.HashMap;
 import java.util.UUID;

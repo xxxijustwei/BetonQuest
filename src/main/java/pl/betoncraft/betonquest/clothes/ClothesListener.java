@@ -5,7 +5,7 @@ import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.event.NPCSpawnEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
-import net.sakuragame.eternal.justmessage.screen.ui.conversation.ConversationScreen;
+import net.sakuragame.eternal.justmessage.screen.ui.quest.ConversationScreen;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

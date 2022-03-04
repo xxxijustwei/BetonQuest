@@ -4,10 +4,12 @@ api-version: 1.13
 description: Advanced role-playing quests and NPC conversations
 authors: [Co0sh, justwei]
 depend:
+  - DataManager
   - MegumiLib
   - Zaphkiel
   - JustMessage
   - GemsEconomy
+  - EternalCargo
 softdepend:
   - Citizens
   - MythicMobs

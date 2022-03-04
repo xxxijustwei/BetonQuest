@@ -21,6 +21,7 @@ import com.taylorswiftcn.justwei.util.MegumiUtil;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import pl.betoncraft.betonquest.core.Journal;
 
 import java.io.File;
 import java.util.*;
@@ -113,8 +114,13 @@ public class ConfigPackage {
             YamlConfiguration yaml = YamlConfiguration.loadConfiguration(sub);
             for (String key : yaml.getKeys(false)) {
                 String title = MegumiUtil.onReplace(yaml.getString(key + ".title"));
+                int priority = yaml.getInt(key + ".priority");
+                Journal.Status status = Journal.Status.match(yaml.getInt(key + ".status"));
                 List<String> desc = MegumiUtil.onReplace(yaml.getStringList(key + ".desc"));
-                profiles.put(key, new JournalProfile(title, desc));
+
+                if (status == null) continue;
+
+                profiles.put(key, new JournalProfile(key, title, priority, status, desc));
             }
         });
 

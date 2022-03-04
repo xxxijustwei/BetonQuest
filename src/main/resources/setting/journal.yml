@@ -1,11 +1,15 @@
 dragon_started:
   title: '&e&l[主线] 击杀灭尽龙'
+  priority: 0
+  status: 0
   desc:
     - '&7前往讨伐灭尽龙'
     - ''
     - '⁌ &7进度: %objective.dragon_started.amount%/1'
 dragon_killed:
   title: '&e&l[主线] 击杀灭尽龙'
+  priority: 0
+  status: 1
   desc:
     - '&f你已经完成讨伐任务'
     - '&f该回到士官长哪了'
