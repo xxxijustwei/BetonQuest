@@ -116,11 +116,12 @@ public class ConfigPackage {
                 String title = MegumiUtil.onReplace(yaml.getString(key + ".title"));
                 int priority = yaml.getInt(key + ".priority");
                 Journal.Status status = Journal.Status.match(yaml.getInt(key + ".status"));
+                String waypoint = yaml.getString(key + ".waypoint");
                 List<String> desc = MegumiUtil.onReplace(yaml.getStringList(key + ".desc"));
 
                 if (status == null) continue;
 
-                profiles.put(key, new JournalProfile(key, title, priority, status, desc));
+                profiles.put(key, new JournalProfile(key, title, priority, status, waypoint, desc));
             }
         });
 

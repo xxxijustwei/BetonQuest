@@ -76,7 +76,6 @@ public class BetonQuest extends JavaPlugin {
         registerListener(new CustomDropListener());
         registerListener(new CustomDropListener());
         // registerListener(new CombatTagger());
-        registerListener(new UIListener());
 
         getCommand("betonquest").setExecutor(new MainCommand());
 

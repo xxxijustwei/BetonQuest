@@ -10,6 +10,7 @@ dragon_killed:
   title: '&e&l[主线] 击杀灭尽龙'
   priority: 0
   status: 1
+  waypoint: '士官长'
   desc:
     - '&f你已经完成讨伐任务'
     - '&f该回到士官长哪了'

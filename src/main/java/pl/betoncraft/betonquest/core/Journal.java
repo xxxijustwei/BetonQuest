@@ -49,6 +49,10 @@ public class Journal {
         this.change = true;
     }
 
+    public String getStick() {
+        return stick;
+    }
+
     public List<String> getPointers() {
         return pointers;
     }

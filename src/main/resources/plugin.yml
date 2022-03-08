@@ -10,6 +10,7 @@ depend:
   - JustMessage
   - GemsEconomy
   - EternalCargo
+  - Waypoints
 softdepend:
   - Citizens
   - MythicMobs
