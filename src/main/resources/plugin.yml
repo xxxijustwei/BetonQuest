@@ -8,6 +8,7 @@ depend:
   - MegumiLib
   - Zaphkiel
   - JustMessage
+  - JustAttribute
   - GemsEconomy
   - EternalCargo
   - Waypoints

@@ -351,6 +351,18 @@ public class Instruction {
         }
     }
 
+    public List<ObjectiveID> getObjectives() throws InstructionParseException {
+        List<ObjectiveID> list = new ArrayList<>();
+        String[] args = getArray();
+        for (String s : args) {
+            ObjectiveID objID = getObjective(s);
+            if (objID == null) continue;
+            list.add(objID);
+        }
+
+        return list;
+    }
+
     public ObjectiveID getObjective() throws InstructionParseException {
         return getObjective(next());
     }

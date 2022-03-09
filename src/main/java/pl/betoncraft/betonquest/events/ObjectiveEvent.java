@@ -25,6 +25,7 @@ import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -34,13 +35,13 @@ import java.util.UUID;
  */
 public class ObjectiveEvent extends QuestEvent {
 
-    private final ObjectiveID objective;
+    private final List<ObjectiveID> objectives;
     private final String action;
 
     public ObjectiveEvent(Instruction instruction) throws InstructionParseException {
         super(instruction);
         action = instruction.next();
-        objective = instruction.getObjective();
+        objectives = instruction.getObjectives();
         if (!Arrays.asList(new String[]{"start", "add", "delete", "remove", "complete", "finish"})
                 .contains(action)) {
             throw new InstructionParseException("Unknown action: " + action);
@@ -50,22 +51,23 @@ public class ObjectiveEvent extends QuestEvent {
 
     @Override
     public void run(final UUID uuid) throws QuestRuntimeException {
-        if (BetonQuest.getQuestManager().getObjective(objective) == null) {
-            throw new QuestRuntimeException("Objective '" + objective + "' is not defined, cannot run objective event");
-        }
         switch (action.toLowerCase()) {
             case "start":
             case "add":
-                QuestManager.newObjective(uuid, objective);
+                objectives.forEach(elm -> QuestManager.newObjective(uuid, elm));
                 break;
             case "delete":
             case "remove":
-                BetonQuest.getQuestManager().getObjective(objective).removePlayer(uuid);
-                BetonQuest.getInstance().getPlayerData(uuid).removeRawObjective(objective);
+                objectives.forEach(elm -> {
+                    BetonQuest.getQuestManager().getObjective(elm).removePlayer(uuid);
+                    BetonQuest.getInstance().getPlayerData(uuid).removeRawObjective(elm);
+                });
                 break;
             case "complete":
             case "finish":
-                BetonQuest.getQuestManager().getObjective(objective).completeObjective(uuid);
+                objectives.forEach(elm -> {
+                    BetonQuest.getQuestManager().getObjective(elm).completeObjective(uuid);
+                });
                 break;
         }
     }

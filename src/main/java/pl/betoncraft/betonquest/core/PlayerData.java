@@ -4,10 +4,12 @@ import lombok.Getter;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.QuestManager;
 import pl.betoncraft.betonquest.api.Objective;
+import pl.betoncraft.betonquest.api.event.PlayerPointChangeEvent;
 import pl.betoncraft.betonquest.config.QuestCanceler;
 import pl.betoncraft.betonquest.core.id.ObjectiveID;
 import pl.betoncraft.betonquest.exceptions.ObjectNotFoundException;
 import pl.betoncraft.betonquest.utils.LogUtils;
+import pl.betoncraft.betonquest.utils.PlayerConverter;
 import pl.betoncraft.betonquest.utils.Scheduler;
 
 import java.util.HashMap;
@@ -97,6 +99,9 @@ public class PlayerData {
             if (point.getCategory().equalsIgnoreCase(category)) {
                 point.addPoints(count);
                 Scheduler.runAsync(() -> BetonQuest.getStorageManager().updatePoints(uuid, category, point.getCount()));
+
+                PlayerPointChangeEvent event = new PlayerPointChangeEvent(PlayerConverter.getPlayer(uuid), category, point.getCount());
+                event.call();
                 return;
             }
         }

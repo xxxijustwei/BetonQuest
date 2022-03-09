@@ -28,7 +28,6 @@ import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.api.Objective;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.utils.MessageUtils;
-import pl.betoncraft.betonquest.utils.PlayerConverter;
 
 import java.util.Arrays;
 import java.util.HashSet;

@@ -31,6 +31,7 @@ public class MythicMobsIntegrator implements Integrator {
     @Override
     public void hook() {
         BetonQuest.getQuestManager().registerObjectives("mmobkill", MythicMobKillObjective.class);
+        BetonQuest.getQuestManager().registerObjectives("mmkill", MythicMobsKillObjective.class);
         BetonQuest.getQuestManager().registerEvents("mspawnmob", MythicSpawnMobEvent.class);
     }
 

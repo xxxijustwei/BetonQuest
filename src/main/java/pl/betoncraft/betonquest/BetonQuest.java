@@ -159,6 +159,7 @@ public class BetonQuest extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             UUID uuid = player.getUniqueId();
             PlayerData playerData = getPlayerData(uuid);
+            playerData.startObjectives();
             GlobalObjectives.startAll(uuid);
             Journal journal = playerData.getJournal();
             journal.update();

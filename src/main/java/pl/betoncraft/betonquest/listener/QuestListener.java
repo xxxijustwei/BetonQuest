@@ -20,6 +20,7 @@ import pl.betoncraft.betonquest.core.PlayerData;
 import pl.betoncraft.betonquest.utils.Scheduler;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class QuestListener implements Listener {
@@ -52,7 +53,19 @@ public class QuestListener implements Listener {
             JournalProfile profile = FileManager.getPackages().getJournal().get(current);
             if (profile == null || profile.getWaypoint() == null) return;
 
-            WaypointsAPI.open(player, "quest", Arrays.asList("§6§l前往", "§f(%distance%m)"));
+            String[] args = profile.getWaypoint().split(":");
+            String type = args[0];
+            String id = args[1];
+
+            List<String> label = Arrays.asList("§6§l前往", "§f(%distance%m)");
+            switch (type) {
+                case "npc":
+                    int npcID = Integer.parseInt(id);
+                    WaypointsAPI.open(player, npcID, 5, label);
+                    return;
+                case "point":
+                    WaypointsAPI.open(player, id, label);
+            }
         }
     }
 

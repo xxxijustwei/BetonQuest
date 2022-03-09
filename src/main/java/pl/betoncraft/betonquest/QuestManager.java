@@ -136,6 +136,7 @@ public class QuestManager {
     }
 
     private void loadSetting() {
+        conditions.clear();
         events.clear();
         objectives.clear();
         conversations.clear();
@@ -339,6 +340,7 @@ public class QuestManager {
         registerConditions("facing", FacingCondition.class);
         registerConditions("conversation", ConversationCondition.class);
         registerConditions("mooncycle", MooncycleCondition.class);
+        registerConditions("tagleast", TagLeastCondition.class);
     }
 
     private void registerEvents() {
@@ -391,6 +393,8 @@ public class QuestManager {
         registerEvents("clothesbuy", ClothesBuyEvent.class);
         registerEvents("kitchoiceopen", KitChoiceOpenEvent.class);
         registerEvents("chat", ChatEvent.class);
+        registerEvents("waypoint", WaypointEvent.class);
+        registerEvents("action", ActionMessageEvent.class);
     }
 
     private void registerObjectives() {
@@ -420,6 +424,8 @@ public class QuestManager {
         registerObjectives("breed", BreedObjective.class);
         registerObjectives("interact", EntityInteractObjective.class);
         registerObjectives("respawn", RespawnObjective.class);
+        registerObjectives("pointchange", PointChangeObjective.class);
+        registerObjectives("identify", IdentifyObjective.class);
     }
 
     private void registerConversationIO() {
