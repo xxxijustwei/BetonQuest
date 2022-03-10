@@ -143,7 +143,7 @@ public class Journal {
         if (profile == null) return;
 
         Player player = PlayerConverter.getPlayer(uuid);
-        String title = PlaceholderAPI.setPlaceholders(player, profile.getTitle()) + "&7&l(F)";
+        String title = PlaceholderAPI.setPlaceholders(player, profile.getTitle()) + "&f" + profile.getStatus().getSymbol() + "&7&l(F)";
 
         MessageAPI.setQuestBar(PlayerConverter.getPlayer(uuid), title, generateContent(profile));
     }
@@ -153,19 +153,25 @@ public class Journal {
     }
 
     public enum Status {
-        UNDER_WAY(0, "&a进行中.."),
-        FINISHED(1, "&e已完成");
+        UNFINISHED(0, "⊋", "&a进行中.."),
+        FINISHED(1, "⊊", "&e已完成");
 
         private final int id;
+        private final String symbol;
         private final String display;
 
-        Status(int id, String display) {
+        Status(int id, String symbol, String display) {
             this.id = id;
+            this.symbol = symbol;
             this.display = display;
         }
 
         public int getID() {
             return id;
+        }
+
+        public String getSymbol() {
+            return symbol;
         }
 
         public String getDisplay() {
