@@ -349,6 +349,7 @@ public class QuestManager {
         registerEvents("tag", TagEvent.class);
         registerEvents("globaltag", GlobalTagEvent.class);
         registerEvents("journal", JournalEvent.class);
+        registerEvents("journalenter", JournalEnterEvent.class);
         registerEvents("teleport", TeleportEvent.class);
         registerEvents("explosion", ExplosionEvent.class);
         registerEvents("lightning", LightningEvent.class);
