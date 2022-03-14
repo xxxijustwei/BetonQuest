@@ -469,6 +469,16 @@ public class Instruction {
         }
     }
 
+    public boolean getBoolean(String string, boolean def) throws InstructionParseException {
+        if (string == null) return def;
+
+        try {
+            return Boolean.parseBoolean(string);
+        } catch (NumberFormatException e) {
+            throw new PartParseException("Could not parse boolean value: " + string, e);
+        }
+    }
+
     ////////////////////
     ///    ARRAYS    ///
     ////////////////////

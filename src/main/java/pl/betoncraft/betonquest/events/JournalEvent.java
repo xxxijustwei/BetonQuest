@@ -32,19 +32,17 @@ import java.util.UUID;
  */
 public class JournalEvent extends QuestEvent {
 
-    private final String name;
     private final boolean add;
+    private final String name;
+    private final boolean update;
+    private final boolean stick;
 
     public JournalEvent(Instruction instruction) throws InstructionParseException {
         super(instruction);
-        String first = instruction.next();
-        if (first.equalsIgnoreCase("update")) {
-            name = null;
-            add = false;
-        } else {
-            add = first.equalsIgnoreCase("add");
-            name = instruction.next();
-        }
+        this.add = instruction.next().equalsIgnoreCase("add");
+        this.name = instruction.next();
+        this.update = instruction.getBoolean(instruction.getOptional("update"), true);
+        this.stick = instruction.getBoolean(instruction.getOptional("stick"), false);
     }
 
     @Override
@@ -52,18 +50,15 @@ public class JournalEvent extends QuestEvent {
         Journal journal = BetonQuest.getInstance().getPlayerData(uuid).getJournal();
         if (add) {
             journal.addPointer(name);
-            journal.update();
             MessageUtils.sendNotify(uuid, "new_journal_entry", null, "new_journal_entry,info");
-            return;
         }
-
-        if (name != null) {
+        else {
             journal.removePointer(name);
-            journal.update();
-            return;
         }
 
-        journal.update();
+        if (stick && add) journal.setStick(name);
+        if (update) journal.update();
+
     }
 
 }
