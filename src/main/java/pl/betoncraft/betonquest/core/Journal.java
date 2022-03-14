@@ -78,13 +78,14 @@ public class Journal {
     }
 
     public void openUI() {
+        Player player = PlayerConverter.getPlayer(uuid);
         if (change) {
             List<JournalProfile> profiles = new ArrayList<>();
             pointers.forEach(s -> profiles.add(FileManager.getPackages().getJournal().get(s)));
             profiles.sort(Comparator.comparing(JournalProfile::getPriority));
 
             List<JournalParams> data = new LinkedList<>();
-            profiles.forEach(elm -> data.add(new JournalParams(elm.getId(), elm.getTitle(), elm.getStatus().getDisplay())));
+            profiles.forEach(elm -> data.add(new JournalParams(elm.getId(), PlaceholderAPI.setPlaceholders(player, elm.getTitle()), elm.getStatus().getDisplay())));
 
             JournalScreen ui = new JournalScreen(data, stick);
             ui.open(PlayerConverter.getPlayer(uuid));
@@ -92,7 +93,7 @@ public class Journal {
             return;
         }
 
-        PacketSender.sendOpenGui(PlayerConverter.getPlayer(uuid), "quest");
+        PacketSender.sendOpenGui(player, "quest");
     }
 
     public void setStick(String stick) {
@@ -101,6 +102,7 @@ public class Journal {
         String oldStick = this.stick;
         this.stick = stick;
         JournalScreen.stickQuest(PlayerConverter.getPlayer(uuid), this.stick, oldStick);
+        Scheduler.runAsync(() -> CargoAPI.getValuesManager().setUserValue(uuid, ValueType.STORAGE, "QUEST_JOURNAL_STICK", stick));
 
         this.update();
         this.change = true;
