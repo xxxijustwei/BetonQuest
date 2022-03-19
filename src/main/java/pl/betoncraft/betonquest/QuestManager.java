@@ -299,6 +299,7 @@ public class QuestManager {
     private void registerConditions() {
         registerConditions("health", HealthCondition.class);
         registerConditions("permission", PermissionCondition.class);
+        registerConditions("permissionleast", PermissionLeastCondition.class);
         registerConditions("experience", ExperienceCondition.class);
         registerConditions("tag", TagCondition.class);
         registerConditions("globaltag", GlobalTagCondition.class);
