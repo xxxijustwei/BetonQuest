@@ -1,12 +1,9 @@
 package pl.betoncraft.betonquest.clothes;
 
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.event.NPCRightClickEvent;
-import net.citizensnpcs.api.event.NPCSpawnEvent;
-import net.citizensnpcs.api.npc.NPC;
-import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
+import ink.ptms.adyeshach.api.AdyeshachAPI;
+import ink.ptms.adyeshach.api.event.AdyeshachEntityInteractEvent;
+import ink.ptms.adyeshach.common.entity.EntityInstance;
 import net.sakuragame.eternal.justmessage.screen.ui.quest.ConversationScreen;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.api.event.PlayerConversationStartEvent;
 import pl.betoncraft.betonquest.api.event.ScreenConversationEvent;
-import pl.betoncraft.betonquest.compatibility.citizens.CitizensConversation;
+import pl.betoncraft.betonquest.compatibility.adyeshach.AdyeshachConversation;
 import pl.betoncraft.betonquest.conversation.ConversationData;
 
 import java.util.UUID;
@@ -22,21 +19,22 @@ import java.util.UUID;
 public class ClothesListener implements Listener {
 
     @EventHandler
-    public void onRight(NPCRightClickEvent e) {
-        Player player = e.getClicker();
+    public void onRight(AdyeshachEntityInteractEvent e) {
+        Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-        int npcID = e.getNPC().getId();
+        int npcID = Integer.parseInt(e.getEntity().getId());
+
+        EntityInstance entity = e.getEntity();
 
         Merchant merchant = BetonQuest.getClothesManager().getMerchant(npcID);
         if (merchant == null) return;
 
         if (merchant.getPrice() < 0) {
             e.setCancelled(true);
-            new CitizensConversation(uuid, "conv_merchant_display", e.getNPC().getEntity().getLocation(), e.getNPC());
-        }
-        else {
+            new AdyeshachConversation(uuid, "conv_merchant_display", entity.getLocation(), entity);
+        } else {
             e.setCancelled(true);
-            new CitizensConversation(uuid, "conv_merchant_shop", e.getNPC().getEntity().getLocation(), e.getNPC());
+            new AdyeshachConversation(uuid, "conv_merchant_shop", entity.getLocation(), entity);
         }
 
         BetonQuest.getClothesManager().getDialogue().put(uuid, npcID);
@@ -69,21 +67,13 @@ public class ClothesListener implements Listener {
 
         Integer realID = BetonQuest.getClothesManager().getDialogueNPC(uuid);
         if (realID == null) return;
-        Entity entity = CitizensAPI.getNPCRegistry().getById(realID).getEntity();
 
-        ConversationScreen.setConvNPC(player, entity.getUniqueId(), data.getModelScale());
+        EntityInstance entityFromId = AdyeshachAPI.INSTANCE.getEntityFromId(String.valueOf(realID), player);
+        if (entityFromId == null) return;
+
+        ConversationScreen.setConvNPC(player, entityFromId.getNormalizeUniqueId(), data.getModelScale());
     }
 
-    @EventHandler
-    public void onSpawn(NPCSpawnEvent e) {
-        NPC npc = e.getNPC();
-        int id = npc.getId();
-
-        Merchant merchant = BetonQuest.getClothesManager().getMerchant(id);
-        if (merchant == null) return;
-
-        ArmourAPI.setEntitySkin(npc.getEntity().getUniqueId(), merchant.getSkins());
-    }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
@@ -91,5 +81,4 @@ public class ClothesListener implements Listener {
         BetonQuest.getClothesManager().getDialogue().remove(uuid);
         BetonQuest.getClothesManager().getTryMap().remove(uuid);
     }
-
 }

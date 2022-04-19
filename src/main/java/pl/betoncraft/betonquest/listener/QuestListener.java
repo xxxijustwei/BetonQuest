@@ -1,12 +1,12 @@
 package pl.betoncraft.betonquest.listener;
 
-import net.citizensnpcs.api.CitizensAPI;
+import ink.ptms.adyeshach.api.AdyeshachAPI;
+import ink.ptms.adyeshach.common.entity.EntityInstance;
 import net.sakuragame.eternal.dragoncore.api.CoreAPI;
 import net.sakuragame.eternal.dragoncore.api.KeyPressEvent;
 import net.sakuragame.eternal.justmessage.api.event.quest.JournalStickEvent;
 import net.sakuragame.eternal.justmessage.screen.ui.quest.ConversationScreen;
 import net.sakuragame.eternal.waypoints.api.WaypointsAPI;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -78,10 +78,11 @@ public class QuestListener implements Listener {
         int npcID = data.getNpcID();
         if (npcID == -1) {
             ConversationScreen.setConvNPC(player, player.getUniqueId(), data.getModelScale());
-        }
-        else {
-            Entity entity = CitizensAPI.getNPCRegistry().getById(npcID).getEntity();
-            ConversationScreen.setConvNPC(player, entity.getUniqueId(), data.getModelScale());
+        } else {
+            EntityInstance entityFromId = AdyeshachAPI.INSTANCE.getEntityFromId(String.valueOf(npcID), player);
+            if (entityFromId == null) return;
+
+            ConversationScreen.setConvNPC(player, entityFromId.getNormalizeUniqueId(), data.getModelScale());
         }
     }
 
@@ -91,5 +92,4 @@ public class QuestListener implements Listener {
         UUID uuid = player.getUniqueId();
         BetonQuest.getInstance().getPlayerData(uuid).getJournal().setStick(e.getID());
     }
-
 }

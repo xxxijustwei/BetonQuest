@@ -18,12 +18,9 @@
 package pl.betoncraft.betonquest.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.plugin.Plugin;
 import pl.betoncraft.betonquest.BetonQuest;
-import pl.betoncraft.betonquest.compatibility.citizens.CitizensIntegrator;
 import pl.betoncraft.betonquest.compatibility.holographicdisplays.HolographicDisplaysIntegrator;
 import pl.betoncraft.betonquest.compatibility.mythicmobs.MythicMobsIntegrator;
 import pl.betoncraft.betonquest.compatibility.placeholderapi.PlaceholderAPIIntegrator;
@@ -61,7 +58,6 @@ public class Compatibility implements Listener {
         hooked = new ArrayList<>();
 
         integrators.put("MythicMobs", new MythicMobsIntegrator());
-        integrators.put("Citizens", new CitizensIntegrator());
         integrators.put("Vault", new VaultIntegrator());
         integrators.put("WorldGuard", new WorldGuardIntegrator());
         integrators.put("PlaceholderAPI", new PlaceholderAPIIntegrator());
@@ -135,7 +131,7 @@ public class Compatibility implements Listener {
                 integrator.hook();
                 hooked.add(name);
             } catch (UnsupportedVersionException e) {
-                LogUtils.getLogger().log(Level.WARNING, "Could not hook into " + name + ": " +  e.getMessage());
+                LogUtils.getLogger().log(Level.WARNING, "Could not hook into " + name + ": " + e.getMessage());
                 LogUtils.logThrowable(e);
             } catch (Exception e) {
                 LogUtils.getLogger().log(Level.WARNING, String.format("There was an error while hooking into %s %s (BetonQuest %s, Spigot %s).",

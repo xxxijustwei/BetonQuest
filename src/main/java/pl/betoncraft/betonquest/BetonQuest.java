@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.betoncraft.betonquest.clothes.ClothesManager;
 import pl.betoncraft.betonquest.commands.*;
 import pl.betoncraft.betonquest.compatibility.Compatibility;
+import pl.betoncraft.betonquest.compatibility.adyeshach.AdyeshachListener;
 import pl.betoncraft.betonquest.config.FileManager;
 import pl.betoncraft.betonquest.conversation.*;
 import pl.betoncraft.betonquest.core.GlobalData;
@@ -75,6 +76,7 @@ public class BetonQuest extends JavaPlugin {
         registerListener(new MobKillListener());
         registerListener(new CustomDropListener());
         registerListener(new CustomDropListener());
+        registerListener(new AdyeshachListener());
         // registerListener(new CombatTagger());
 
         getCommand("betonquest").setExecutor(new MainCommand());

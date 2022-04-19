@@ -33,20 +33,11 @@ public class ProtocolLibIntegrator implements Integrator {
 
     @Override
     public void hook() {
-        // if Citizens is hooked, start NPCHider
-        if (Compatibility.getHooked().contains("Citizens")) {
-            NPCHider.start();
-            BetonQuest.getQuestManager().registerEvents("updatevisibility", UpdateVisibilityNowEvent.class);
-        }
         BetonQuest.getQuestManager().registerInterceptor("packet", PacketInterceptor.class);
     }
 
     @Override
     public void reload() {
-        //if NPCHider is running, reload it
-        if (NPCHider.getInstance() != null) {
-            NPCHider.start();
-        }
     }
 
     @Override

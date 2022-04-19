@@ -44,7 +44,6 @@ import pl.betoncraft.betonquest.utils.MessageUtils;
 import pl.betoncraft.betonquest.utils.PlayerConverter;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -82,7 +81,7 @@ public class Conversation implements Listener {
      * Starts a new conversation between player and npc at given location. It uses
      * starting options to determine where to start.
      *
-     * @param uuid       ID of the player
+     * @param uuid           ID of the player
      * @param conversationID ID of the conversation
      * @param location       location where the conversation has been started
      */
@@ -95,7 +94,7 @@ public class Conversation implements Listener {
      * starting with the given option. If the option is null, then it will start
      * from the beginning.
      *
-     * @param uuid       ID of the player
+     * @param uuid           ID of the player
      * @param conversationID ID of the conversation
      * @param location       location where the conversation has been started
      * @param option         ID of the option from where to start

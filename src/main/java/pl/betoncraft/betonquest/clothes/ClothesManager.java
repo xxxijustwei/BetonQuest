@@ -1,8 +1,6 @@
 package pl.betoncraft.betonquest.clothes;
 
 import lombok.Getter;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
 import org.bukkit.Bukkit;
 import pl.betoncraft.betonquest.BetonQuest;
@@ -26,27 +24,16 @@ public class ClothesManager {
     }
 
     public void init() {
-        if (Bukkit.getPluginManager().getPlugin("Citizens") == null) {
-            Bukkit.getConsoleSender().sendMessage("§6[BetonQuest]  §6§lClothes module startup failure.(Need Citizens)");
+        if (Bukkit.getPluginManager().getPlugin("Adyeshach") == null) {
+            Bukkit.getConsoleSender().sendMessage("§6[BetonQuest]  §6§lClothes module startup failure.(Need Adyeshach)");
             return;
         }
 
         this.plugin.registerListener(new ClothesListener());
 
         this.merchantMap = BetonQuest.getFileManager().getMerchant();
-        this.applyNPCSkin();
 
         Bukkit.getConsoleSender().sendMessage("§6[BetonQuest]  §6§lSuccessfully loaded " + merchantMap.size() + " clothes npc.");
-    }
-
-    private void applyNPCSkin() {
-        for (int key : merchantMap.keySet()) {
-            NPC npc = CitizensAPI.getNPCRegistry().getById(key);
-            if (npc == null) continue;
-
-            Merchant merchant = merchantMap.get(key);
-            ArmourAPI.setEntitySkin(npc.getEntity().getUniqueId(), merchant.getSkins());
-        }
     }
 
     public Merchant getMerchant(int npcID) {

@@ -21,7 +21,6 @@ import pl.betoncraft.betonquest.core.Instruction;
 import pl.betoncraft.betonquest.events.QuestEvent;
 import pl.betoncraft.betonquest.exceptions.InstructionParseException;
 import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
-import pl.betoncraft.betonquest.utils.PlayerConverter;
 
 import java.util.UUID;
 
@@ -33,6 +32,5 @@ public class UpdateVisibilityNowEvent extends QuestEvent {
 
     @Override
     public void run(UUID uuid) throws QuestRuntimeException {
-        NPCHider.getInstance().applyVisibility(PlayerConverter.getPlayer(uuid));
     }
 }
