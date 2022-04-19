@@ -22,23 +22,23 @@ import java.util.UUID;
 
 public class ClothesListener implements Listener {
 
-//    @EventHandler
-//    public void onVisible(AdyeshachPlayerJoinEvent event) {
-//        Scheduler.runAsync(new BukkitRunnable() {
-//            @Override
-//            public void run() {
-//                AdyeshachAPI.INSTANCE.getEntityManagerPublic().getEntities().forEach(entity -> {
-//                    UUID normalizeUniqueId = entity.getNormalizeUniqueId();
-//                    int npcID = Integer.parseInt(entity.getId());
-//                    Merchant merchant = BetonQuest.getClothesManager().getMerchant(npcID);
-//                    if (merchant == null) {
-//                        return;
-//                    }
-//                    ArmourAPI.setEntitySkin(normalizeUniqueId, merchant.getSkins());
-//                });
-//            }
-//        });
-//    }
+    @EventHandler
+    public void onVisible(AdyeshachPlayerJoinEvent event) {
+        Scheduler.runAsync(new BukkitRunnable() {
+            @Override
+            public void run() {
+                AdyeshachAPI.INSTANCE.getEntityManagerPublic().getEntities().forEach(entity -> {
+                    UUID normalizeUniqueId = entity.getNormalizeUniqueId();
+                    int npcID = Integer.parseInt(entity.getId());
+                    Merchant merchant = BetonQuest.getClothesManager().getMerchant(npcID);
+                    if (merchant == null) {
+                        return;
+                    }
+                    ArmourAPI.setEntitySkin(normalizeUniqueId, merchant.getSkins());
+                });
+            }
+        });
+    }
 
     @EventHandler
     public void onRight(AdyeshachEntityInteractEvent e) {
