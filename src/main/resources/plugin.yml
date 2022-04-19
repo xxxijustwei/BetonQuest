@@ -13,6 +13,7 @@ depend:
   - EternalCargo
   - Waypoints
 softdepend:
+  - Adyeshach
   - MythicMobs
   - Vault
   - WorldEdit
