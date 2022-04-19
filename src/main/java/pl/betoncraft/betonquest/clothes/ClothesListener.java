@@ -3,9 +3,11 @@ package pl.betoncraft.betonquest.clothes;
 import ink.ptms.adyeshach.api.AdyeshachAPI;
 import ink.ptms.adyeshach.api.event.AdyeshachEntityInteractEvent;
 import ink.ptms.adyeshach.api.event.AdyeshachEntitySpawnEvent;
+import ink.ptms.adyeshach.api.event.AdyeshachEntityVisibleEvent;
 import ink.ptms.adyeshach.common.entity.EntityInstance;
 import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
 import net.sakuragame.eternal.justmessage.screen.ui.quest.ConversationScreen;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +24,11 @@ public class ClothesListener implements Listener {
 
     @EventHandler
     public void onSpawn(AdyeshachEntitySpawnEvent event) {
+        Bukkit.broadcastMessage("reached.");
+    }
+
+    @EventHandler
+    public void onVisible(AdyeshachEntityVisibleEvent event) {
         UUID normalizeUniqueId = event.getEntity().getNormalizeUniqueId();
         int npcID = Integer.parseInt(event.getEntity().getId());
         Merchant merchant = BetonQuest.getClothesManager().getMerchant(npcID);
