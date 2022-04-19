@@ -1,7 +1,6 @@
 package pl.betoncraft.betonquest.clothes;
 
 import lombok.Getter;
-import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
 import org.bukkit.Bukkit;
 import pl.betoncraft.betonquest.BetonQuest;
 
@@ -50,5 +49,4 @@ public class ClothesManager {
 
         return merchantMap.get(npcID);
     }
-
 }

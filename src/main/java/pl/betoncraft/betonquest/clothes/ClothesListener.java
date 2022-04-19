@@ -2,7 +2,9 @@ package pl.betoncraft.betonquest.clothes;
 
 import ink.ptms.adyeshach.api.AdyeshachAPI;
 import ink.ptms.adyeshach.api.event.AdyeshachEntityInteractEvent;
+import ink.ptms.adyeshach.api.event.AdyeshachEntitySpawnEvent;
 import ink.ptms.adyeshach.common.entity.EntityInstance;
+import net.sakuragame.eternal.dragoncore.api.ArmourAPI;
 import net.sakuragame.eternal.justmessage.screen.ui.quest.ConversationScreen;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +19,17 @@ import pl.betoncraft.betonquest.conversation.ConversationData;
 import java.util.UUID;
 
 public class ClothesListener implements Listener {
+
+    @EventHandler
+    public void onSpawn(AdyeshachEntitySpawnEvent event) {
+        UUID normalizeUniqueId = event.getEntity().getNormalizeUniqueId();
+        int npcID = Integer.parseInt(event.getEntity().getId());
+        Merchant merchant = BetonQuest.getClothesManager().getMerchant(npcID);
+        if (merchant == null) {
+            return;
+        }
+        ArmourAPI.setEntitySkin(normalizeUniqueId, merchant.getSkins());
+    }
 
     @EventHandler
     public void onRight(AdyeshachEntityInteractEvent e) {
