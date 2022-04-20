@@ -47,7 +47,7 @@ public class ConversationData {
 
     private final String convName;
 
-    @Getter private final int npcID;
+    @Getter private final String npcID;
     @Getter private final double modelScale;
     private final String quester; // maps for multiple languages
     private final EventID[] finalEvents;
@@ -72,7 +72,7 @@ public class ConversationData {
 
         YamlConfiguration conv = pack.getConversation(name).getYaml();
 
-        npcID = conv.getInt("npc-id");
+        npcID = conv.getString("npc-id");
         modelScale = conv.getDouble("model-scale");
         quester = conv.getString("quester");
         String rawFinalEvents = conv.getString("final_events");

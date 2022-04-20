@@ -75,19 +75,11 @@ public class QuestListener implements Listener {
         ConversationData data = e.getConversation().getData();
         if (data == null) return;
 
-        int npcID = data.getNpcID();
-        if (npcID == -1) {
-//            Integer id = BetonQuest.getClothesManager().getDialogue().get(player.getUniqueId());
-//            if (id == null) {
-//                EntityInstance entityFromId = AdyeshachAPI.INSTANCE.getEntityFromId(String.valueOf(id), player);
-//                if (entityFromId != null) {
-//                    ConversationScreen.setConvNPC(player, entityFromId.getNormalizeUniqueId(), data.getModelScale());
-//                    return;
-//                }
-//            }
+        String npcID = data.getNpcID();
+        if (npcID.equals("-1")) {
             ConversationScreen.setConvNPC(player, player.getUniqueId(), data.getModelScale());
         } else {
-            EntityInstance entityFromId = AdyeshachAPI.INSTANCE.getEntityFromId(String.valueOf(npcID), player);
+            EntityInstance entityFromId = AdyeshachAPI.INSTANCE.getEntityFromId(npcID, player);
             if (entityFromId == null) return;
 
             ConversationScreen.setConvNPC(player, entityFromId.getNormalizeUniqueId(), data.getModelScale());

@@ -29,7 +29,7 @@ public class ClothesListener implements Listener {
             public void run() {
                 AdyeshachAPI.INSTANCE.getEntityManagerPublic().getEntities().forEach(entity -> {
                     UUID normalizeUniqueId = entity.getNormalizeUniqueId();
-                    int npcID = Integer.parseInt(entity.getId());
+                    String npcID = entity.getId();
                     Merchant merchant = BetonQuest.getClothesManager().getMerchant(npcID);
                     if (merchant == null) {
                         return;
@@ -44,7 +44,7 @@ public class ClothesListener implements Listener {
     public void onRight(AdyeshachEntityInteractEvent e) {
         Player player = e.getPlayer();
         UUID uuid = player.getUniqueId();
-        int npcID = Integer.parseInt(e.getEntity().getId());
+        String npcID = e.getEntity().getId();
 
         EntityInstance entity = e.getEntity();
 
@@ -84,13 +84,13 @@ public class ClothesListener implements Listener {
         ConversationData data = e.getConversation().getData();
         if (data == null) return;
 
-        int npcID = data.getNpcID();
-        if (npcID != -1) return;
+        String id = data.getNpcID();
+        if (!id.equals("-1")) return;
 
-        Integer realID = BetonQuest.getClothesManager().getDialogueNPC(uuid);
-        if (realID == null) return;
+        String npcID = BetonQuest.getClothesManager().getDialogueNPC(uuid);
+        if (npcID == null) return;
 
-        EntityInstance entityFromId = AdyeshachAPI.INSTANCE.getEntityFromId(String.valueOf(realID), player);
+        EntityInstance entityFromId = AdyeshachAPI.INSTANCE.getEntityFromId(npcID, player);
         if (entityFromId == null) return;
 
         ConversationScreen.setConvNPC(player, entityFromId.getNormalizeUniqueId(), data.getModelScale());

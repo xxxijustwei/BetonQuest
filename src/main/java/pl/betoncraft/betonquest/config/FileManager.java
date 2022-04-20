@@ -114,13 +114,13 @@ public class FileManager extends JustConfiguration {
         }
     }
 
-    public HashMap<Integer, Merchant> getMerchant() {
+    public HashMap<String, Merchant> getMerchant() {
         File file = new File(plugin.getDataFolder(), "clothes/merchant.yml");
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-        HashMap<Integer, Merchant> map = new HashMap<>();
+        HashMap<String, Merchant> map = new HashMap<>();
 
         for (String key : yaml.getKeys(false)) {
-            map.put(Integer.parseInt(key), new Merchant(yaml.getConfigurationSection(key)));
+            map.put(key, new Merchant(yaml.getConfigurationSection(key)));
         }
 
         return map;
